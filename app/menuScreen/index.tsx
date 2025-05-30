@@ -22,7 +22,7 @@ export default function MenuScreen() {
   <Text style={styles.buttonText}>Produtos</Text>
 </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={() => router.push('/relatorioEventosScreen')}>
         <Text style={styles.buttonText}>Relatório</Text>
       </TouchableOpacity>
 

@@ -1,4 +1,3 @@
-import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -9,14 +8,7 @@ const MensagemScreen = () => {
   return (
     <View style={styles.container}>
 
-      {/* Botão de voltar */}
-      <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-        <View style={styles.backButtonInner}>
-          <Ionicons name="chevron-back" size={40} color="#FFFFFF" />
-        </View>
-      </TouchableOpacity>
-
-      {/* Logo */}
+    
       <View style={styles.logoContainer}>
         <Image
           source={require('./assets/logo.png')}
@@ -24,8 +16,7 @@ const MensagemScreen = () => {
           resizeMode="contain"
         />
       </View>
-
-      {/* Botões */}
+      
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={() => router.push('/mensagensEnviadasScreen')}>
           <Text style={styles.buttonText}>Enviar mensagem</Text>

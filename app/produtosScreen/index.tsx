@@ -1,4 +1,3 @@
-import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -8,14 +7,8 @@ const ProdutosScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* Botão de voltar */}
-      <TouchableOpacity style={styles.menuButton} onPress={() => router.back()}>
-        <View style={styles.menuButtonInner}>
-          <Ionicons name="arrow-back" size={30} color="#FFFFFF" />
-        </View>
-      </TouchableOpacity>
+    
 
-      {/* Logo */}
       <View style={styles.logoContainer}>
         <Image 
           source={require('./assets/logo.png')} 
@@ -27,7 +20,7 @@ const ProdutosScreen = () => {
       <Text style={styles.sectionTitle}>PRODUTOS</Text>
 
       <ScrollView contentContainerStyle={styles.productContainer}>
-        {/* Produto 1 */}
+   
         <View style={styles.productCard}>
           <View style={styles.textContent}>
             <Text style={styles.productName}>Chocolate meio amargo</Text>
@@ -38,13 +31,13 @@ const ProdutosScreen = () => {
               source={require('./assets/meioamargoamaro.png')}
               style={styles.productImage}
             />
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={() => router.push('/detalheProduto1Screen')}>
               <Text style={styles.buttonText}>SAIBA MAIS</Text>
             </TouchableOpacity>
           </View>
         </View>
 
-        {/* Produto 2 */}
+      
         <View style={styles.productCard}>
           <View style={styles.textContent}>
             <Text style={styles.productName}>Chocolate ao leite Lacta - 80g</Text>
@@ -54,13 +47,13 @@ const ProdutosScreen = () => {
               source={require('./assets/aoleite.png')}
               style={styles.productImage}
             />
-            <TouchableOpacity style={styles.button}>
+           <TouchableOpacity style={styles.button} onPress={() => router.push('/detalheProduto3Screen')}>
               <Text style={styles.buttonText}>SAIBA MAIS</Text>
             </TouchableOpacity>
           </View>
         </View>
 
-        {/* Produto 3 */}
+    
         <View style={styles.productCard}>
           <View style={styles.textContent}>
             <Text style={styles.productName}>Chocolate meio amargo</Text>
@@ -71,13 +64,13 @@ const ProdutosScreen = () => {
               source={require('./assets/amaro2.png')}
               style={styles.productImage}
             />
-            <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={() => router.push('/detalheProduto2Screen')}>
               <Text style={styles.buttonText}>SAIBA MAIS</Text>
             </TouchableOpacity>
           </View>
         </View>
 
-        {/* Produto 4 */}
+      
         <View style={styles.productCard}>
           <View style={styles.textContent}>
             <Text style={styles.productName}>Chocolate meio amargo</Text>
@@ -88,7 +81,7 @@ const ProdutosScreen = () => {
               source={require('./assets/demeter.png')}
               style={styles.productImage}
             />
-            <TouchableOpacity style={styles.button}>
+           <TouchableOpacity style={styles.button} onPress={() => router.push('/detalheProduto4Screen')}>
               <Text style={styles.buttonText}>SAIBA MAIS</Text>
             </TouchableOpacity>
           </View>
