@@ -1,4 +1,3 @@
-import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import {
@@ -15,12 +14,9 @@ export default function MensagemFormScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Botão Voltar */}
-      <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-        <Ionicons name="arrow-back" size={28} color="#fff" />
-      </TouchableOpacity>
+   
 
-      {/* Logo */}
+
       <View style={styles.logoContainer}>
         <Image
           source={require('./assets/logo.png')}
@@ -28,10 +24,8 @@ export default function MensagemFormScreen() {
         />
       </View>
 
-      {/* Título */}
       <Text style={styles.title}>Digite sua mensagem no campo de texto abaixo</Text>
 
-      {/* Campo De */}
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
@@ -40,7 +34,6 @@ export default function MensagemFormScreen() {
         />
       </View>
 
-      {/* Campo Para */}
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
@@ -49,7 +42,6 @@ export default function MensagemFormScreen() {
         />
       </View>
 
-      {/* Campo Assunto */}
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
@@ -58,7 +50,7 @@ export default function MensagemFormScreen() {
         />
       </View>
 
-      {/* Campo de Mensagem */}
+
       <View style={styles.textAreaContainer}>
         <Text style={styles.label}>Mensagem:</Text>
         <TextInput
@@ -69,7 +61,7 @@ export default function MensagemFormScreen() {
         />
       </View>
 
-      {/* Botão Enviar */}
+
       <TouchableOpacity style={styles.button} onPress={() => { /* lógica de envio */ }}>
         <Text style={styles.buttonText}>Enviar</Text>
       </TouchableOpacity>

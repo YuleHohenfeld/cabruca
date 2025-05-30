@@ -31,46 +31,229 @@ export default function RootLayout() {
 
     <Stack.Screen 
   name="produtosScreen/index" 
-options={{ 
-          title: 'produto',
-          headerShown: false
-        }} 
+ options={{ 
+    title: '',
+    headerBackTitle: 'Voltar', 
+    headerShown: true, 
+    headerBackVisible: true, 
+    headerStyle: {
+      backgroundColor: '#01923F', 
+    },
+    headerTintColor: '#FFA500', 
+  }}
 
+/>
+
+
+<Stack.Screen 
+  name="detalheProduto1Screen/index" 
+     options={{ 
+    title: '',
+    headerBackTitle: 'Voltar', 
+    headerShown: true, 
+    headerBackVisible: true, 
+    headerStyle: {
+      backgroundColor: '#01923F', 
+    },
+    headerTintColor: '#FFA500', 
+  }}
+        
+/>
+
+<Stack.Screen 
+  name="pedirProduto1Screen/index" 
+  options={{ 
+    title: '',
+    headerBackTitle: 'Voltar', 
+    headerShown: true, 
+    headerBackVisible: true, 
+    headerStyle: {
+      backgroundColor: '#01923F', 
+    },
+    headerTintColor: '#FFA500', 
+  }} 
+        
+/>
+
+<Stack.Screen 
+  name="detalheProduto2Screen/index" 
+     options={{ 
+    title: '',
+    headerBackTitle: 'Voltar', 
+    headerShown: true, 
+    headerBackVisible: true, 
+    headerStyle: {
+      backgroundColor: '#01923F', 
+    },
+    headerTintColor: '#FFA500', 
+  }}
+        
+/>
+
+<Stack.Screen 
+  name="pedirProduto2Screen/index" 
+  options={{ 
+    title: '',
+    headerBackTitle: 'Voltar', 
+    headerShown: true, 
+    headerBackVisible: true, 
+    headerStyle: {
+      backgroundColor: '#01923F', 
+    },
+    headerTintColor: '#FFA500', 
+  }} 
+        
+/>
+
+
+<Stack.Screen 
+  name="detalheProduto3Screen/index" 
+     options={{ 
+    title: '',
+    headerBackTitle: 'Voltar', 
+    headerShown: true, 
+    headerBackVisible: true, 
+    headerStyle: {
+      backgroundColor: '#01923F', 
+    },
+    headerTintColor: '#FFA500', 
+  }}
+        
+/>
+
+<Stack.Screen 
+  name="pedirProduto3Screen/index" 
+  options={{ 
+    title: '',
+    headerBackTitle: 'Voltar', 
+    headerShown: true, 
+    headerBackVisible: true, 
+    headerStyle: {
+      backgroundColor: '#01923F', 
+    },
+    headerTintColor: '#FFA500', 
+  }} 
+        
+/>
+
+<Stack.Screen 
+  name="detalheProduto4Screen/index" 
+     options={{ 
+    title: '',
+    headerBackTitle: 'Voltar', 
+    headerShown: true, 
+    headerBackVisible: true, 
+    headerStyle: {
+      backgroundColor: '#01923F', 
+    },
+    headerTintColor: '#FFA500', 
+  }}
+        
 />
 
   <Stack.Screen 
   name="pedidosScreen/index" 
-  options={{ 
-          title: 'pedidos',
-          headerShown: false
-        }} 
+   options={{ 
+    title: '',
+    headerBackTitle: 'Voltar', 
+    headerShown: true, 
+    headerBackVisible: true, 
+    headerStyle: {
+      backgroundColor: '#01923F', 
+    },
+    headerTintColor: '#FFA500', 
+  }}
 
+/>
+
+
+<Stack.Screen 
+  name="relatorioEventosScreen/index" 
+   options={{ 
+    title: '',
+    headerBackTitle: 'Voltar', 
+    headerShown: true, 
+    headerBackVisible: true, 
+    headerStyle: {
+      backgroundColor: '#01923F', 
+    },
+    headerTintColor: '#FFA500', 
+  }}
+
+/>
+
+<Stack.Screen 
+  name="relatorioEventos2Screen/index" 
+   options={{ 
+    title: '',
+    headerBackTitle: 'Voltar', 
+    headerShown: true, 
+    headerBackVisible: true, 
+    headerStyle: {
+      backgroundColor: '#01923F', 
+    },
+    headerTintColor: '#FFA500', 
+  }}
+
+/>
+
+<Stack.Screen 
+  name="nomeEventoScreen/index" 
+  options={{ 
+    title: '',
+    headerBackTitle: 'Voltar', 
+    headerShown: true, 
+    headerBackVisible: true, 
+    headerStyle: {
+      backgroundColor: '#01923F', 
+    },
+    headerTintColor: '#FFA500', 
+  }} 
+        
 />
 
   <Stack.Screen 
   name="mensagensScreen/index" 
   options={{ 
-          title: 'mensagens',
-          headerShown: false
-        }} 
+    title: '',
+    headerBackTitle: 'Voltar', 
+    headerShown: true, 
+    headerBackVisible: true, 
+    headerStyle: {
+      backgroundColor: '#01923F', 
+    },
+    headerTintColor: '#FFA500', 
+  }}
 
 />
 
  <Stack.Screen 
   name="mensagensRecebidasScreen/index" 
-  options={{ 
-          title: 'mensagens',
-          headerShown: false
-        }} 
+options={{ 
+    title: '',
+    headerBackTitle: 'Voltar', 
+    headerShown: true, 
+    headerBackVisible: true, 
+    headerStyle: {
+      backgroundColor: '#01923F', 
+    },
+    headerTintColor: '#FFA500', 
+  }}
 
 />
 
 <Stack.Screen 
   name="mensagensEnviadasScreen/index" 
  options={{ 
-          title: 'mensagens',
-          headerShown: false
-        }} 
+    title: '',
+    headerBackTitle: 'Voltar', 
+    headerShown: true, 
+    headerBackVisible: true, 
+    headerStyle: {
+      backgroundColor: '#01923F', 
+    },
+    headerTintColor: '#FFA500', 
+  }}
 
 />
  
@@ -118,8 +301,6 @@ options={{
 />
 
 
-
-      {/* Rotas das Tabs (opcional) */}
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
     </Stack>
   );

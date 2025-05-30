@@ -24,9 +24,7 @@ const Cabecalho = () => {
 
   return (
     <>
-      <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-       <Ionicons name="chevron-back" size={40} color="#FFFFFF" />
-      </TouchableOpacity>
+   
 
       <View style={styles.logoContainer}>
         <Image source={logo} style={styles.logo} />

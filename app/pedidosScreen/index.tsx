@@ -1,7 +1,6 @@
-import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 const pedidos = [
   {
@@ -33,19 +32,11 @@ const PedidosScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* Botão de voltar */}
-      <TouchableOpacity style={styles.menuButton} onPress={() => router.back()}>
-        <View style={styles.menuButtonInner}>
-          <Ionicons name="arrow-back" size={30} color="#FFFFFF" />
-        </View>
-      </TouchableOpacity>
-
-      {/* Logo */}
+    
       <View style={styles.logoContainer}>
         <Image source={require('./assets/logo.png')} style={styles.logo} resizeMode="contain" />
       </View>
 
-      {/* Título alinhado à esquerda */}
       <Text style={styles.sectionTitle}>Pedidos</Text>
 
       <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -108,7 +99,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#FFFFFF',
     marginVertical: 10,
-    marginLeft: 20, // Alinhado à esquerda
+    marginLeft: 20, 
   },
   scrollContainer: {
     paddingHorizontal: 20,
