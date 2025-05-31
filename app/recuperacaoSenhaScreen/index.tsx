@@ -1,19 +1,41 @@
+
+import { requestPasswordRecoveryCode } from '@/mockApi/recovery';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Alert, Image, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Alert, Image, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Button } from 'react-native-paper';
 
 const PasswordRecoveryScreen = () => {
   const router = useRouter();
   const [inputValue, setInputValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleRecovery = () => {
-    if (!inputValue.trim()) {
+  const handleRecovery = async () => { 
+    const identifier = inputValue.trim();
+    if (!identifier) {
       Alert.alert('Campo obrigatório', 'Por favor, preencha o campo com seu e-mail ou CNPJ.');
       return;
     }
 
-    router.push('/verificacaoSenhaScreen');
+    setIsLoading(true);
+    try {
+      const response = await requestPasswordRecoveryCode(identifier);
+
+      if (response.success) {
+
+        router.push({
+          pathname: '/verificacaoSenhaScreen',
+          params: { identifier: identifier }, 
+        });
+      } else {
+        Alert.alert('Falha', response.message);
+      }
+    } catch (error) {
+      console.error("Erro ao solicitar recuperação:", error);
+      Alert.alert('Erro', 'Ocorreu um problema ao tentar solicitar a recuperação. Tente novamente.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -23,33 +45,35 @@ const PasswordRecoveryScreen = () => {
       </View>
 
       <Text style={styles.title}>Recuperação de senha</Text>
-
       <Text style={styles.explanationText}>
         Informe seu CNPJ ou e-mail cadastrado para iniciar o processo de recuperação de senha.
       </Text>
-
       <Text style={styles.inputLabel}>Email/CNPJ</Text>
-
       <TextInput
         style={styles.input}
-        keyboardType="email-address"
-        placeholderTextColor="#FFFFFF"
+        keyboardType="email-address" 
+        placeholderTextColor="#BDBDBD" 
         value={inputValue}
         onChangeText={setInputValue}
+        autoCapitalize="none" 
+        editable={!isLoading} 
       />
-
-      <Button 
-        mode="contained" 
-        style={styles.button} 
+      <Button
+        mode="contained"
+        style={styles.button}
         labelStyle={styles.buttonText}
         onPress={handleRecovery}
+        disabled={isLoading} 
       >
-        Enviar
+        {isLoading ? (
+          <ActivityIndicator size="small" color="#FFFFFF" />
+        ) : (
+          'Enviar'
+        )}
       </Button>
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -60,9 +84,9 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   logoContainer: {
-    transform: [{ translateX: -25 }],
+    transform: [{ translateX: -25 }], 
     marginBottom: 30,
-    marginTop: -290,
+    marginTop: -200, 
   },
   logo: {
     width: 290,
@@ -88,6 +112,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     marginBottom: 8,
     fontSize: 16,
+    textAlign: 'left', 
   },
   input: {
     width: '100%',
@@ -98,6 +123,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     color: '#FFFFFF',
     marginBottom: 30,
+    backgroundColor: 'rgba(255,255,255,0.2)', 
   },
   button: {
     backgroundColor: '#FFAA39',
@@ -105,6 +131,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 25,
     justifyContent: 'center',
+  
   },
   buttonText: {
     fontSize: 20,
