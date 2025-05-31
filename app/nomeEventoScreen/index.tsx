@@ -7,7 +7,6 @@ export default function App() {
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: '#01923F', padding: 16 }}>
-      {/* Top Bar */}
       <View style={styles.topBar}>
        
         <Image
@@ -26,13 +25,10 @@ export default function App() {
       <Field label="Tipo" placeholder="(automaticoEvento)" />
       <Field label="Produtor" placeholder="(automaticoProdutor)" />
 
-      {/* Produto 1 */}
+    
       <ProductCard title="Produto 1" quantidade="90" cambio={selectedCurrency} setCambio={setSelectedCurrency} />
-
-      {/* Produto 2 */}
       <ProductCard title="Produto 2" cambio={selectedCurrency} setCambio={setSelectedCurrency} />
 
-      {/* Produto 3 */}
       <ProductCard title="Produto 3" cambio={selectedCurrency} setCambio={setSelectedCurrency} />
 
       <Field label="CDP" placeholder="" />
