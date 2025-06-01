@@ -1,4 +1,3 @@
-
 import { getMockProducts, Product } from '@/mockApi/products';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
@@ -15,9 +14,7 @@ import {
 
 const screenLogo = require('./assets/logo.png'); 
 
-
 const ProductCard = ({ product, onNavigate }: { product: Product; onNavigate: () => void }) => {
-
   const imageMap: { [key: string]: ReturnType<typeof require> } = {
     'meioamargoamaro.png': require('./assets/meioamargoamaro.png'),
     'aoleite.png': require('./assets/aoleite.png'),
@@ -25,7 +22,6 @@ const ProductCard = ({ product, onNavigate }: { product: Product; onNavigate: ()
     'demeter.png': require('./assets/demeter.png'),
   };
   const placeholderImage = require('./assets/placeHolder.png'); 
-
   const productImageSource = imageMap[product.imageName] || placeholderImage;
 
   return (
@@ -69,12 +65,10 @@ const ProdutosScreen = () => {
   }, []);
 
   const navigateToDetail = (productId: string) => {
-   
     router.push({
-      pathname: '/detalheprodutoScreen', 
-      params: { productId: productId },
+      pathname: '/detalheprodutoScreen',
+      params: { productId },
     });
-   
   };
 
   if (isLoading) {
@@ -94,15 +88,17 @@ const ProdutosScreen = () => {
       <Text style={styles.sectionTitle}>PRODUTOS</Text>
       <ScrollView contentContainerStyle={styles.productContainer}>
         {products.length === 0 && !isLoading ? (
-            <Text style={{color: 'white', textAlign: 'center', fontSize: 16}}>Nenhum produto encontrado.</Text>
+          <Text style={{ color: 'white', textAlign: 'center', fontSize: 16 }}>
+            Nenhum produto encontrado.
+          </Text>
         ) : (
-            products.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onNavigate={() => navigateToDetail(product.id)}
-              />
-            ))
+          products.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              onNavigate={() => navigateToDetail(product.id)}
+            />
+          ))
         )}
       </ScrollView>
     </View>
@@ -115,59 +111,60 @@ const styles = StyleSheet.create({
     backgroundColor: '#01923F',
     paddingTop: 41,
   },
-  loadingContainer: { 
+  loadingContainer: {
     justifyContent: 'center',
     alignItems: 'center',
   },
   logoContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    transform: [{ translateX: -25 }], 
-    marginBottom: 20,
-    marginTop: 20, 
+    transform: [{ translateX: -25 }],
+    marginBottom: 8, 
+    marginTop: 3,     
   },
   logo: {
     width: 300,
-    height: 190, 
+    height: 190,
+    marginBottom: 8, 
   },
   sectionTitle: {
     fontSize: 32,
     fontWeight: 'bold',
     color: 'white',
     textAlign: 'center',
-    marginBottom: 20, 
+    marginBottom: 8, 
   },
   productContainer: {
     paddingHorizontal: 20,
-    paddingBottom: 20, 
+    paddingBottom: 20,
   },
   productCard: {
     backgroundColor: '#59A752',
     borderRadius: 10,
     padding: 15,
-    marginBottom: 15, 
+    marginBottom: 8, 
   },
   textContent: {
-    marginBottom: 10, 
+    marginBottom: 10,
   },
   bottomContent: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-end', 
+    alignItems: 'flex-end',
   },
   productImage: {
     width: 100,
     height: 100,
-    resizeMode: 'contain', 
+    resizeMode: 'contain',
   },
   productName: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: 'white', 
+    color: 'white',
   },
   productBrand: {
     fontSize: 16,
-    color: 'white', 
+    color: 'white',
   },
   button: {
     backgroundColor: '#DADBD9',
@@ -178,7 +175,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#000000',
-    fontWeight: 'bold', 
+    fontWeight: 'bold',
   },
 });
 
