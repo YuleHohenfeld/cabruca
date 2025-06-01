@@ -1,10 +1,8 @@
-
 import { resetPassword } from "@/mockApi/recovery";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
-
   Alert,
   Image,
   Keyboard,
@@ -15,10 +13,11 @@ import {
   TouchableWithoutFeedback,
   View
 } from "react-native";
+import Icon from "react-native-vector-icons/Feather";
 
 export default function RedefinirSenha() {
   const router = useRouter();
-  const params = useLocalSearchParams<{ identifier?: string }>(); 
+  const params = useLocalSearchParams<{ identifier?: string }>();
   const [identifier, setIdentifier] = useState<string | undefined>(undefined);
 
   const [newPassword, setNewPassword] = useState("");
@@ -31,14 +30,13 @@ export default function RedefinirSenha() {
     if (params.identifier) {
       setIdentifier(params.identifier);
     } else {
-     
       Alert.alert("Erro", "Informação do usuário não encontrada. Por favor, reinicie o processo.");
-      router.replace("/loginScreen"); 
+      router.replace("/loginScreen");
     }
   }, [params, router]);
 
   const handleReset = async () => {
-    Keyboard.dismiss(); 
+    Keyboard.dismiss();
     if (!newPassword.trim() || !confirmPassword.trim()) {
       Alert.alert("Atenção", "Por favor, preencha os campos de nova senha e confirmação.");
       return;
@@ -47,13 +45,13 @@ export default function RedefinirSenha() {
       Alert.alert("Erro", "As senhas não conferem.");
       return;
     }
-    if (newPassword.length < 6) { 
-        Alert.alert("Senha curta", "A nova senha deve ter pelo menos 6 caracteres.");
-        return;
+    if (newPassword.length < 6) {
+      Alert.alert("Senha curta", "A nova senha deve ter pelo menos 6 caracteres.");
+      return;
     }
-    if (!identifier) { 
-        Alert.alert("Erro", "Não foi possível identificar o usuário.");
-        return;
+    if (!identifier) {
+      Alert.alert("Erro", "Não foi possível identificar o usuário.");
+      return;
     }
 
     setIsLoading(true);
@@ -61,9 +59,9 @@ export default function RedefinirSenha() {
       const response = await resetPassword(identifier, newPassword);
       if (response.success) {
         Alert.alert("Sucesso", response.message + "\nVocê será redirecionado para a tela de login.");
-        setNewPassword(""); 
+        setNewPassword("");
         setConfirmPassword("");
-        router.replace("/loginScreen"); 
+        router.replace("/loginScreen");
       } else {
         Alert.alert("Falha", response.message);
       }
@@ -78,13 +76,13 @@ export default function RedefinirSenha() {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <Image
-          source={require("./assets/logo.png")} 
+          source={require("./assets/logo.png")}
           style={styles.externalLogo}
           resizeMode="contain"
         />
         <Text style={styles.title}>Redefinição de senha</Text>
         <Text style={styles.mensagem}>
-          Crie uma nova senha para <Text style={{fontWeight: 'bold'}}>{identifier || "sua conta"}</Text>.
+          Crie uma nova senha para <Text style={{ fontWeight: 'bold' }}>{identifier || "sua conta"}</Text>.
         </Text>
 
         <View style={styles.inputContainer}>
@@ -98,8 +96,15 @@ export default function RedefinirSenha() {
               placeholder="Digite a nova senha"
               placeholderTextColor="#A9A9A9"
             />
-            <TouchableOpacity onPress={() => setIsNewPasswordVisible(!isNewPasswordVisible)} style={styles.eyeIcon}>
-              <Text style={styles.eyeText}>{isNewPasswordVisible ? '🙈' : '👁️'}</Text>
+            <TouchableOpacity
+              onPress={() => setIsNewPasswordVisible(!isNewPasswordVisible)}
+              style={styles.eyeIcon}
+            >
+              <Icon
+                name={isNewPasswordVisible ? 'eye' : 'eye-off'}
+                size={24}
+                color="#fff"
+              />
             </TouchableOpacity>
           </View>
 
@@ -113,8 +118,15 @@ export default function RedefinirSenha() {
               placeholder="Confirme a nova senha"
               placeholderTextColor="#A9A9A9"
             />
-            <TouchableOpacity onPress={() => setIsConfirmPasswordVisible(!isConfirmPasswordVisible)} style={styles.eyeIcon}>
-               <Text style={styles.eyeText}>{isConfirmPasswordVisible ? '🙈' : '👁️'}</Text>
+            <TouchableOpacity
+              onPress={() => setIsConfirmPasswordVisible(!isConfirmPasswordVisible)}
+              style={styles.eyeIcon}
+            >
+              <Icon
+                name={isConfirmPasswordVisible ? 'eye' : 'eye-off'}
+                size={24}
+                color="#fff"
+              />
             </TouchableOpacity>
           </View>
         </View>
@@ -124,13 +136,15 @@ export default function RedefinirSenha() {
           onPress={handleReset}
           disabled={isLoading}
         >
-          {isLoading ? <ActivityIndicator color="#fff" size="small"/> : <Text style={styles.submitButton}>Redefinir Senha</Text>}
+          {isLoading
+            ? <ActivityIndicator color="#fff" size="small" />
+            : <Text style={styles.submitButton}>Redefinir Senha</Text>
+          }
         </TouchableOpacity>
       </View>
     </TouchableWithoutFeedback>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -193,10 +207,6 @@ const styles = StyleSheet.create({
   },
   eyeIcon: {
     padding: 10,
-  },
-  eyeText: {
-    fontSize: 22,
-    color: "#fff",
   },
   submitContainer: {
     marginTop: 30,
