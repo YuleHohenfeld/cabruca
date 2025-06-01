@@ -1,7 +1,5 @@
+import { mockUsers } from './auth';
 
-import { mockUsers } from './auth'; // Importa mockUsers de auth.ts
-
-// LOG PARA VERIFICAR A IMPORTAÇÃO NO CARREGAMENTO DO MÓDULO
 console.log('[MOCK recovery.ts] mockUsers importado no topo do arquivo:', JSON.stringify(mockUsers, null, 2));
 
 const mockRegisteredIdentifiers: string[] = [
@@ -52,11 +50,11 @@ export const resetPassword = (identifier: string, newPassword: string): Promise<
       );
 
       if (userIndex !== -1) {
-        mockUsers[userIndex].password = newPassword; // "Atualiza" a senha
+        mockUsers[userIndex].password = newPassword; 
         console.log(`[MOCK] Senha para '${identifier}' atualizada para '${newPassword}'`);
         resolve({ success: true, message: 'Senha redefinida com sucesso!' });
       } else {
-        // Isso não deveria acontecer se o fluxo estiver correto
+  
         resolve({ success: false, message: 'Usuário não encontrado para redefinir a senha.' });
       }
     }, 700);
