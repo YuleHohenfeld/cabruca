@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
-    minHeight: 40, // Aumentado para 40
+    minHeight: 40, 
   },
   label: {
     fontSize: 13,
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     width: '40%',
   },
   input: {
-    height: 36, // Aumentado para 36
+    height: 36, 
     borderColor: '#59A752',
     borderWidth: 1,
     paddingLeft: 8,
@@ -166,10 +166,10 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     color: '#070000',
     backgroundColor: '#FFFFFF',
-    fontSize: 14, // Aumentado para 14
-    paddingVertical: 6, // Ajustado
+    fontSize: 14, 
+    paddingVertical: 6, 
     textAlignVertical: 'center',
-    includeFontPadding: false, // Adicionado para melhor precisão
+    includeFontPadding: false, 
   },
   button: {
     width: '75%',

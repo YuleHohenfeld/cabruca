@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   logoContainer: {
     transform: [{ translateX: -25 }], 
     marginBottom: 30,
-    marginTop: -200, 
+    marginTop: -90, 
   },
   logo: {
     width: 290,
@@ -112,7 +112,6 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     marginBottom: 8,
     fontSize: 16,
-    textAlign: 'left', 
   },
   input: {
     width: '100%',
@@ -123,7 +122,6 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     color: '#FFFFFF',
     marginBottom: 30,
-    backgroundColor: 'rgba(255,255,255,0.2)', 
   },
   button: {
     backgroundColor: '#FFAA39',
@@ -131,7 +129,6 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 25,
     justifyContent: 'center',
-  
   },
   buttonText: {
     fontSize: 20,

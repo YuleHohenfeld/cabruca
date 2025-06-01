@@ -40,16 +40,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
- imageContainer: {
+  imageContainer: {
     position: 'absolute',
-    top: 90,
-    
+    top: 50, 
     zIndex: 1,
     alignItems: 'center',
   },
-    logoImage: {
-    width: 300,
-    height: 200,
+  logoImage: {
+    width: 300,  
+    height: 150, 
     resizeMode: 'contain',
     marginBottom: 10,
   },
@@ -67,7 +66,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
-   backButton: {
+  backButton: {
     position: 'absolute',
     top: 1,
     left: 20,
@@ -78,7 +77,7 @@ const styles = StyleSheet.create({
   },
   backArrow: {
     fontSize: 20,
-    color: '#FFA500',  
-    fontWeight: 'bold', 
+    color: '#FFA500',
+    fontWeight: 'bold',
   },
 });

@@ -1,4 +1,3 @@
-
 import { verifyPasswordRecoveryCode } from '@/mockApi/recovery';
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
@@ -56,7 +55,7 @@ export default function CodigoRecuperacao() {
   };
 
   const handleSubmit = async () => {
-    Keyboard.dismiss(); 
+    Keyboard.dismiss();
     const recoveryCodeString = codes.join("");
 
     if (recoveryCodeString.length !== codes.length) {
@@ -74,14 +73,14 @@ export default function CodigoRecuperacao() {
     setIsLoading(true);
     setErrorIndexes([]);
 
-     try {
+    try {
       const response = await verifyPasswordRecoveryCode(identifier, recoveryCodeString);
 
       if (response.success) {
         Alert.alert('Sucesso!', response.message);
         router.push({
-          pathname: "/redefirSenhaScreen",
-          params: { identifier: identifier } 
+          pathname: "/redefirSenhaScreen", 
+          params: { identifier }
         });
       } else {
         Alert.alert('Código Inválido', response.message);
@@ -100,7 +99,6 @@ export default function CodigoRecuperacao() {
   };
 
   return (
-  
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
       <View style={styles.container}>
         <Image
@@ -131,7 +129,7 @@ export default function CodigoRecuperacao() {
               returnKeyType={index === codes.length - 1 ? "done" : "next"}
               onSubmitEditing={() => {
                 if (index === codes.length - 1) {
-                  handleSubmit(); 
+                  handleSubmit();
                 } else if (codes[index]) {
                   inputsRef.current[index + 1]?.focus();
                 }
@@ -162,69 +160,65 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#01923F",
+    paddingTop: 1,
     paddingHorizontal: 24,
-
     alignItems: "center",
-    justifyContent: 'center',
+    position: "relative",
   },
   externalLogo: {
-    width: "80%",
-    height: 150,
-    alignSelf: 'center',
+    width: "100%",
+    height: 200,
     marginBottom: 20,
   },
   title: {
     color: "white",
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 10,
+    marginBottom: 20,
     textAlign: "center",
   },
   mensagem: {
     color: "white",
     fontSize: 16,
     textAlign: "center",
-    marginBottom: 30,
-    paddingHorizontal: 10,
-    lineHeight: 22,
+    marginBottom: 39,
   },
   inputContainer: {
-    width: "100%",
+    width: "80%",
     flexDirection: "row",
-    justifyContent: "space-evenly",
-    marginBottom: 30,
+    justifyContent: "center",
+    marginBottom: 40,
   },
   input: {
     width: 50,
-    height: 65,
+    height: 70,
     borderWidth: 1,
-    borderColor: "#FFFFFF",
-    borderRadius: 10,
-    color: "#FFFFFF",
+    borderColor: "#ccc",
+    borderRadius: 50,
+    color: "#fff",
     textAlign: "center",
-    fontSize: 28,
-    backgroundColor: "rgba(255,255,255,0.2)",
+    fontSize: 32,
+    marginHorizontal: 8,
   },
   inputError: {
     borderColor: "red",
-    backgroundColor: 'rgba(255, 0, 0, 0.1)',
   },
   submitContainer: {
     marginTop: 20,
-    width: "90%",
+    width: 300,
     backgroundColor: "#FFAA39",
     justifyContent: "center",
     alignItems: "center",
-    paddingVertical: 15,
+    paddingVertical: 10,
     borderRadius: 30,
   },
   submitContainerDisabled: {
-    backgroundColor: '#FFD18C',
+    backgroundColor: "#FFAA39AA", 
   },
   submitButton: {
     color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: 24,
+    fontWeight: "600",
     textAlign: "center",
   },
 });

@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#01923F',
     padding: 20,
-    paddingTop: 50,
+    paddingTop: 30, 
   },
   backButton: {
     position: 'absolute',
@@ -90,12 +90,12 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     alignItems: 'center',
-      transform: [{ translateX: -25 }],
-    marginBottom: 12,
+    transform: [{ translateX: -25 }],
+    marginBottom: 20, 
   },
   logo: {
-    width: 300,
-    height: 250,
+    width: 250,  
+    height: 150, 
     resizeMode: 'contain',
   },
   title: {
