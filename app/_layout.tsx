@@ -63,6 +63,36 @@ export default function RootLayout() {
 />
 
 <Stack.Screen 
+  name="detalheprodutoScreen/index" 
+     options={{ 
+    title: '',
+    headerBackTitle: 'Voltar', 
+    headerShown: true, 
+    headerBackVisible: true, 
+    headerStyle: {
+      backgroundColor: '#01923F', 
+    },
+    headerTintColor: '#FFA500', 
+  }}
+        
+/>
+
+<Stack.Screen 
+  name="pedirprodutoScreen/index" 
+     options={{ 
+    title: '',
+    headerBackTitle: 'Voltar', 
+    headerShown: true, 
+    headerBackVisible: true, 
+    headerStyle: {
+      backgroundColor: '#01923F', 
+    },
+    headerTintColor: '#FFA500', 
+  }}
+        
+/>
+
+<Stack.Screen 
   name="pedirProduto1Screen/index" 
   options={{ 
     title: '',

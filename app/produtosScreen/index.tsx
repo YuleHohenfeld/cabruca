@@ -1,91 +1,109 @@
+
+import { getMockProducts, Product } from '@/mockApi/products';
 import { useRouter } from 'expo-router';
-import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  ActivityIndicator,
+  Alert,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+
+const screenLogo = require('./assets/logo.png'); 
+
+
+const ProductCard = ({ product, onNavigate }: { product: Product; onNavigate: () => void }) => {
+
+  const imageMap: { [key: string]: ReturnType<typeof require> } = {
+    'meioamargoamaro.png': require('./assets/meioamargoamaro.png'),
+    'aoleite.png': require('./assets/aoleite.png'),
+    'amaro2.png': require('./assets/amaro2.png'),
+    'demeter.png': require('./assets/demeter.png'),
+  };
+  const placeholderImage = require('./assets/placeHolder.png'); 
+
+  const productImageSource = imageMap[product.imageName] || placeholderImage;
+
+  return (
+    <View style={styles.productCard}>
+      <View style={styles.textContent}>
+        <Text style={styles.productName}>{product.name}</Text>
+        <Text style={styles.productBrand}>{product.brandDetails}</Text>
+      </View>
+      <View style={styles.bottomContent}>
+        <Image source={productImageSource} style={styles.productImage} resizeMode="contain" />
+        <TouchableOpacity style={styles.button} onPress={onNavigate}>
+          <Text style={styles.buttonText}>SAIBA MAIS</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
 
 const ProdutosScreen = () => {
   const router = useRouter();
+  const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      setIsLoading(true);
+      try {
+        const response = await getMockProducts();
+        if (response.success) {
+          setProducts(response.products);
+        } else {
+          Alert.alert("Erro", "Não foi possível carregar os produtos.");
+        }
+      } catch (err) {
+        Alert.alert("Erro", "Ocorreu um problema ao buscar os produtos.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadProducts();
+  }, []);
+
+  const navigateToDetail = (productId: string) => {
+   
+    router.push({
+      pathname: '/detalheprodutoScreen', 
+      params: { productId: productId },
+    });
+   
+  };
+
+  if (isLoading) {
+    return (
+      <View style={[styles.container, styles.loadingContainer]}>
+        <ActivityIndicator size="large" color="#FFFFFF" />
+        <Text style={{ color: 'white', marginTop: 10 }}>Carregando Produtos...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
-    
-
       <View style={styles.logoContainer}>
-        <Image 
-          source={require('./assets/logo.png')} 
-          style={styles.logo} 
-          resizeMode="contain"
-        />
+        <Image source={screenLogo} style={styles.logo} resizeMode="contain" />
       </View>
-
       <Text style={styles.sectionTitle}>PRODUTOS</Text>
-
       <ScrollView contentContainerStyle={styles.productContainer}>
-   
-        <View style={styles.productCard}>
-          <View style={styles.textContent}>
-            <Text style={styles.productName}>Chocolate meio amargo</Text>
-            <Text style={styles.productBrand}>Lacta Amaro - 40% cacau</Text>
-          </View>
-          <View style={styles.bottomContent}>
-            <Image 
-              source={require('./assets/meioamargoamaro.png')}
-              style={styles.productImage}
-            />
-            <TouchableOpacity style={styles.button} onPress={() => router.push('/detalheProduto1Screen')}>
-              <Text style={styles.buttonText}>SAIBA MAIS</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-      
-        <View style={styles.productCard}>
-          <View style={styles.textContent}>
-            <Text style={styles.productName}>Chocolate ao leite Lacta - 80g</Text>
-          </View>
-          <View style={styles.bottomContent}>
-            <Image 
-              source={require('./assets/aoleite.png')}
-              style={styles.productImage}
-            />
-           <TouchableOpacity style={styles.button} onPress={() => router.push('/detalheProduto3Screen')}>
-              <Text style={styles.buttonText}>SAIBA MAIS</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-    
-        <View style={styles.productCard}>
-          <View style={styles.textContent}>
-            <Text style={styles.productName}>Chocolate meio amargo</Text>
-            <Text style={styles.productBrand}>Lacta Amaro - 40% cacau</Text>
-          </View>
-          <View style={styles.bottomContent}>
-            <Image 
-              source={require('./assets/amaro2.png')}
-              style={styles.productImage}
-            />
-        <TouchableOpacity style={styles.button} onPress={() => router.push('/detalheProduto2Screen')}>
-              <Text style={styles.buttonText}>SAIBA MAIS</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-      
-        <View style={styles.productCard}>
-          <View style={styles.textContent}>
-            <Text style={styles.productName}>Chocolate meio amargo</Text>
-            <Text style={styles.productBrand}>Lacta Amaro - 40% cacau</Text>
-          </View>
-          <View style={styles.bottomContent}>
-            <Image 
-              source={require('./assets/demeter.png')}
-              style={styles.productImage}
-            />
-           <TouchableOpacity style={styles.button} onPress={() => router.push('/detalheProduto4Screen')}>
-              <Text style={styles.buttonText}>SAIBA MAIS</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        {products.length === 0 && !isLoading ? (
+            <Text style={{color: 'white', textAlign: 'center', fontSize: 16}}>Nenhum produto encontrado.</Text>
+        ) : (
+            products.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                onNavigate={() => navigateToDetail(product.id)}
+              />
+            ))
+        )}
       </ScrollView>
     </View>
   );
@@ -97,69 +115,59 @@ const styles = StyleSheet.create({
     backgroundColor: '#01923F',
     paddingTop: 40,
   },
-  menuButton: {
-    position: 'absolute',
-    top: 40,
-    left: 20,
-    zIndex: 1,
-  },
-  menuButtonInner: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: '#FFA500',
+  loadingContainer: { 
     justifyContent: 'center',
     alignItems: 'center',
   },
   logoContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-     transform: [{ translateX: -25 }],
+    transform: [{ translateX: -25 }], 
     marginBottom: 20,
-    marginTop: 20,
+    marginTop: 20, 
   },
   logo: {
     width: 300,
-    height: 190,
+    height: 190, 
   },
   sectionTitle: {
     fontSize: 32,
     fontWeight: 'bold',
     color: 'white',
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: 20, 
   },
   productContainer: {
     paddingHorizontal: 20,
-    paddingBottom: 20,
+    paddingBottom: 20, 
   },
   productCard: {
     backgroundColor: '#59A752',
     borderRadius: 10,
     padding: 15,
-    marginBottom: 15,
+    marginBottom: 15, 
   },
   textContent: {
-    marginBottom: 10,
+    marginBottom: 10, 
   },
   bottomContent: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-end',
+    alignItems: 'flex-end', 
   },
   productImage: {
     width: 100,
     height: 100,
-    resizeMode: 'contain',
+    resizeMode: 'contain', 
   },
   productName: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: 'white',
+    color: 'white', 
   },
   productBrand: {
     fontSize: 16,
-    color: 'white',
+    color: 'white', 
   },
   button: {
     backgroundColor: '#DADBD9',
@@ -170,7 +178,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#000000',
-    fontWeight: 'bold',
+    fontWeight: 'bold', 
   },
 });
 
