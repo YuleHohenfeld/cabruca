@@ -33,7 +33,7 @@ const TextInputExample = () => {
       if (response.success && response.user) {
         Alert.alert('Sucesso!', `Bem-vindo, ${response.user.name}!`);
        
-        router.push('/menuScreen'); 
+       router.replace('/menuScreen');
       } else {
         Alert.alert('Falha no Login', response.message || 'Email ou senha inválidos.');
       }
