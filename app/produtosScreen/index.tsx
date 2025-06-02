@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#01923F',
-    paddingTop: 41,
+    paddingTop: 20, 
   },
   loadingContainer: {
     justifyContent: 'center',
@@ -117,22 +117,19 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     alignItems: 'center',
-    justifyContent: 'center',
-    transform: [{ translateX: -25 }],
-    marginBottom: 8, 
-    marginTop: 3,     
+    marginBottom: 10, 
   },
   logo: {
-    width: 300,
-    height: 190,
-    marginBottom: 8, 
+    width: 280,
+        transform: [{ translateX: -12 }],
+    height: 130
   },
   sectionTitle: {
-    fontSize: 32,
+    fontSize: 24, 
     fontWeight: 'bold',
     color: 'white',
     textAlign: 'center',
-    marginBottom: 8, 
+    marginVertical: 10, 
   },
   productContainer: {
     paddingHorizontal: 20,
@@ -142,7 +139,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#59A752',
     borderRadius: 10,
     padding: 15,
-    marginBottom: 8, 
+    marginBottom: 15, 
   },
   textContent: {
     marginBottom: 10,
