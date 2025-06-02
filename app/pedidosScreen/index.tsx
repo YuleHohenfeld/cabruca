@@ -17,7 +17,7 @@ const pedidos = [
   {
     data: '10 de maio, 2025',
     status: 'Pedido finalizado',
-    corStatus: '#00FF88',
+    corStatus: '#00FF88', 
     produtos: [
       { nome: 'Chocolate dark 40%', qtd: 11 },
       { nome: 'Chocolate ao leite', qtd: 12 },
@@ -32,7 +32,6 @@ const PedidosScreen = () => {
 
   return (
     <View style={styles.container}>
-    
       <View style={styles.logoContainer}>
         <Image source={require('./assets/logo.png')} style={styles.logo} resizeMode="contain" />
       </View>
@@ -69,42 +68,30 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#01923F',
-    paddingTop: 60,
-  },
-  menuButton: {
-    position: 'absolute',
-    top: 60,
-    left: 20,
-    zIndex: 1,
-  },
-  menuButtonInner: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: '#FFA500',
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingTop: 10, 
   },
   logoContainer: {
     alignItems: 'center',
-     transform: [{ translateX: -25 }],
-    marginTop: 20,
+    marginTop: 0,    
+    marginBottom: 10,  
   },
   logo: {
-    width: 300,
-    height: 190,
+    width: 280,
+        transform: [{ translateX: -12 }],
+    height: 130, 
   },
   sectionTitle: {
     fontSize: 28,
     fontWeight: 'bold',
     color: '#FFFFFF',
-    marginVertical: 10,
-    marginLeft: 20, 
+    marginVertical: 10, 
+    textAlign: 'center',
   },
   scrollContainer: {
     paddingHorizontal: 20,
     paddingBottom: 20,
   },
+
   pedidoCard: {
     backgroundColor: '#59A752',
     borderRadius: 10,

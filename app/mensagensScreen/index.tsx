@@ -35,52 +35,39 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#01923F',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
+    justifyContent: 'flex-start',
+    alignItems: 'center',   
+    paddingHorizontal: 20,   
+    paddingTop: 60,          
+    
   },
-  backButton: {
-    position: 'absolute',
-    top: 60,
-    left: 20,
-    zIndex: 10,
-  },
-  backButtonInner: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: '#FFA500',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+ 
   logoContainer: {
-    marginTop: 60,
-    marginBottom: 40,
+    
+    marginBottom: 40, 
+    alignItems: 'center', 
   },
   logo: {
-    width: 250,
-    height: 250,
-    marginTop: -270,
+   width: 280,
+        transform: [{ translateX: -12 }],
+    height: 130, 
   },
   buttonContainer: {
-    width: '85%',
+    width: '90%', 
+
   },
   button: {
     backgroundColor: '#FFA500',
-    borderRadius: 100,
+    borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    height: 80,
-    marginBottom: 30,
+    paddingVertical: 18, 
+    width: '100%', 
+    marginBottom: 20, 
   },
-  buttonEnviar: {
-    
-  },
-  buttonRecebidas: {
-   
-  },
+ 
   buttonText: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#FFFFFF',
   },

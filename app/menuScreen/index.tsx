@@ -48,14 +48,15 @@ const styles = StyleSheet.create({
   },
   logoImage: {
     width: 300,  
-    height: 150, 
+    height: 190, 
+        transform: [{ translateX: -12 }],
     resizeMode: 'contain',
-    marginBottom: 10,
+    marginBottom: 18,
   },
   button: {
     backgroundColor: '#FFA500',
     borderRadius: 30,
-    paddingVertical: 18,
+    paddingVertical: 20,
     paddingHorizontal: 60,
     marginVertical: 12,
     width: '80%',
@@ -65,19 +66,5 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 16,
-  },
-  backButton: {
-    position: 'absolute',
-    top: 1,
-    left: 20,
-    zIndex: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 10,
-  },
-  backArrow: {
-    fontSize: 20,
-    color: '#FFA500',
-    fontWeight: 'bold',
   },
 });

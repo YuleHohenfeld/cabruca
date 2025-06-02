@@ -1,21 +1,21 @@
-
 import { getMockProductById, OrderDetails, placeMockOrder, Product } from '@/mockApi/products';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
-    ActivityIndicator,
-    Alert,
-    Image,
-    Keyboard,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    TouchableWithoutFeedback,
-    View,
+  ActivityIndicator,
+  Alert,
+  Image,
+  Keyboard,
+  KeyboardAvoidingView,
+  Modal,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
 } from 'react-native';
 
 const screenLogo = require('./assets/logo.png');
@@ -29,9 +29,15 @@ export default function PedirProdutoScreen() {
   const [product, setProduct] = useState<Product | null>(null);
   const [isLoadingProduct, setIsLoadingProduct] = useState(true);
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
+  const [showCurrencyModal, setShowCurrencyModal] = useState(false);
 
+  const currencies = [
+    { label: 'USD', value: 'USD' },
+    { label: 'BRL', value: 'BRL' },
+    { label: 'EUR', value: 'EUR' }
+  ];
 
-  const [cambio, setCambio] = useState("US");
+  const [cambio, setCambio] = useState("USD");
   const [precoFob, setPrecoFob] = useState("");
   const [quantidade, setQuantidade] = useState("");
   const [valorTotal, setValorTotal] = useState("");
@@ -66,7 +72,6 @@ export default function PedirProdutoScreen() {
       setIsLoadingProduct(false);
     }
   }, [productId]);
-
 
   useEffect(() => {
     const numQuantidade = parseFloat(String(quantidade).replace(',', '.'));
@@ -173,7 +178,14 @@ export default function PedirProdutoScreen() {
 
             <View style={styles.row}>
               <Text style={styles.label}>Câmbio:</Text>
-              <TextInput style={styles.input} value={cambio} onChangeText={setCambio} placeholder="Ex: USD" editable={!isPlacingOrder} />
+              <TouchableOpacity 
+                style={[styles.input, styles.pickerInput]} 
+                onPress={() => !isPlacingOrder && setShowCurrencyModal(true)}
+                disabled={isPlacingOrder}
+              >
+                <Text style={styles.pickerText}>{cambio}</Text>
+                <Text style={styles.pickerArrow}>▼</Text>
+              </TouchableOpacity>
             </View>
             <View style={styles.row}>
               <Text style={styles.label}>Preço Fob/Unid:</Text>
@@ -204,6 +216,46 @@ export default function PedirProdutoScreen() {
               )}
             </TouchableOpacity>
           </View>
+
+          {/* Modal de Seleção de Câmbio */}
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={showCurrencyModal}
+            onRequestClose={() => setShowCurrencyModal(false)}
+          >
+            <View style={styles.modalOverlay}>
+              <View style={styles.modalContent}>
+                <Text style={styles.modalTitle}>Selecione o Câmbio</Text>
+                {currencies.map((currency) => (
+                  <TouchableOpacity
+                    key={currency.value}
+                    style={[
+                      styles.modalOption,
+                      cambio === currency.value && styles.modalOptionSelected
+                    ]}
+                    onPress={() => {
+                      setCambio(currency.value);
+                      setShowCurrencyModal(false);
+                    }}
+                  >
+                    <Text style={[
+                      styles.modalOptionText,
+                      cambio === currency.value && styles.modalOptionTextSelected
+                    ]}>
+                      {currency.label}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+                <TouchableOpacity 
+                  style={styles.modalCloseButton}
+                  onPress={() => setShowCurrencyModal(false)}
+                >
+                  <Text style={styles.modalCloseText}>Cancelar</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
         </ScrollView>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
@@ -303,6 +355,68 @@ const styles = StyleSheet.create({
   inputDisabled: {
     backgroundColor: '#E9E9E9', 
     color: '#777777',
+  },
+  pickerInput: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  pickerText: {
+    color: '#333333',
+    fontSize: 15,
+  },
+  pickerArrow: {
+    color: '#666666',
+    fontSize: 12,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    padding: 20,
+    width: '80%',
+    maxWidth: 300,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333333',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  modalOption: {
+    padding: 15,
+    borderRadius: 8,
+    marginVertical: 5,
+    backgroundColor: '#F5F5F5',
+  },
+  modalOptionSelected: {
+    backgroundColor: '#01923F',
+  },
+  modalOptionText: {
+    fontSize: 16,
+    color: '#333333',
+    textAlign: 'center',
+  },
+  modalOptionTextSelected: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+  },
+  modalCloseButton: {
+    marginTop: 15,
+    padding: 12,
+    backgroundColor: '#E0E0E0',
+    borderRadius: 8,
+  },
+  modalCloseText: {
+    fontSize: 16,
+    color: '#666666',
+    textAlign: 'center',
   },
   button: {
     width: '85%',

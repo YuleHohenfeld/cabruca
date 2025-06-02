@@ -137,8 +137,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   logo: {
-    width: 250,
-    height: 180,
+     width: 280,
+        transform: [{ translateX: -12 }],
+    height: 130
   },
   card: {
     backgroundColor: '#59A752',

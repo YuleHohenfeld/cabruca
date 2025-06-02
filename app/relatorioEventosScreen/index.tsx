@@ -52,8 +52,8 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 20,
-    paddingTop: 70, 
-    paddingBottom: 80, 
+    paddingTop: 20, 
+    paddingBottom: 60, 
   },
   backButton: {
     position: 'absolute',
@@ -80,9 +80,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   logo: {
-    width: 250,
-    height: 180,
-    marginTop: -60,
+      width: 280,
+        transform: [{ translateX: -12 }],
+    height: 130
   },
   mainTitle: {
     fontSize: 24,

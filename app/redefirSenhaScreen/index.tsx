@@ -158,16 +158,16 @@ const styles = StyleSheet.create({
   },
   externalLogo: {
     width: "100%",
-    height: 200,
-    transform: [{ translateX: -25 }],
+    height: 140,
+    transform: [{ translateX: -12 }],
     marginBottom: 10,
     marginTop: 3,
   },
   title: {
     color: "white",
-    fontSize: 35,
+    fontSize: 28,
     fontWeight: "bold",
-    marginBottom: 20,
+    marginBottom: 40,
     textAlign: "center",
   },
   mensagem: {

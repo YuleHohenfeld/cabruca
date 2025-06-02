@@ -128,38 +128,28 @@ export default function MensagemFormScreen() {
 }
 
 const styles = StyleSheet.create({
-  keyboardAvoidingContainer: { 
+  keyboardAvoidingContainer: {
     flex: 1,
     backgroundColor: '#01923F',
   },
   container: {
-    flex: 1, 
+    flex: 1,
     backgroundColor: '#01923F',
-    padding: 20,
-    paddingTop: 50,
-  },
-  backButton: {
-    position: 'absolute',
-    top: 60,
-    left: 20,
-    backgroundColor: '#FFA500',
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 1,
+    padding: 20, 
+
   },
   logoContainer: {
     alignItems: 'center',
-      transform: [{ translateX: -25 }],
-    marginBottom: 12,
+    transform: [{ translateX: -12}], 
+    marginBottom: 12, 
+  
   },
   logo: {
-    width: 300,
-    height: 250,
+    width: 200, 
+    height: 220, 
     resizeMode: 'contain',
   },
+  
   title: {
     color: '#FFFFFF',
     fontSize: 18,
