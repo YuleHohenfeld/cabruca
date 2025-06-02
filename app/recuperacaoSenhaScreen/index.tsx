@@ -10,7 +10,7 @@ const PasswordRecoveryScreen = () => {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleRecovery = async () => { 
+  const handleRecovery = async () => {
     const identifier = inputValue.trim();
     if (!identifier) {
       Alert.alert('Campo obrigatório', 'Por favor, preencha o campo com seu e-mail ou CNPJ.');
@@ -25,7 +25,7 @@ const PasswordRecoveryScreen = () => {
 
         router.push({
           pathname: '/verificacaoSenhaScreen',
-          params: { identifier: identifier }, 
+          params: { identifier: identifier },
         });
       } else {
         Alert.alert('Falha', response.message);
@@ -51,19 +51,19 @@ const PasswordRecoveryScreen = () => {
       <Text style={styles.inputLabel}>Email/CNPJ</Text>
       <TextInput
         style={styles.input}
-        keyboardType="email-address" 
-        placeholderTextColor="#BDBDBD" 
+        keyboardType="email-address"
+        placeholderTextColor="#BDBDBD"
         value={inputValue}
         onChangeText={setInputValue}
-        autoCapitalize="none" 
-        editable={!isLoading} 
+        autoCapitalize="none"
+        editable={!isLoading}
       />
       <Button
         mode="contained"
         style={styles.button}
         labelStyle={styles.buttonText}
         onPress={handleRecovery}
-        disabled={isLoading} 
+        disabled={isLoading}
       >
         {isLoading ? (
           <ActivityIndicator size="small" color="#FFFFFF" />
@@ -84,14 +84,15 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   logoContainer: {
-    transform: [{ translateX: -25 }], 
+    transform: [{ translateX: -25 }],
     marginBottom: 30,
-    marginTop: -90, 
+    marginTop: -90,
   },
   logo: {
     width: 290,
     height: 200,
     resizeMode: 'contain',
+    marginTop: -180,
   },
   title: {
     fontSize: 28,
