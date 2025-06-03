@@ -4,25 +4,46 @@ import {
   Image,
   Modal,
   ScrollView, StyleSheet, Text, TextInput, TouchableOpacity,
-  TouchableWithoutFeedback,
   View
 } from 'react-native';
 
 const cambioOptions = [
-  { label: 'US', value: 'US' },
+  { label: 'USD', value: 'USD' },
+  { label: 'BRL', value: 'BRL' },
   { label: 'EUR', value: 'EUR' },
-  { label: 'Real', value: 'BRL' },
 ];
 
 const EventReportScreen = () => {
-   const router = useRouter();
-  const [cambio, setCambio] = useState('US');
-  const [modalVisible, setModalVisible] = useState(false);
+  const router = useRouter();
+  const [cambio, setCambio] = useState('USD');
+  const [showCurrencyModal, setShowCurrencyModal] = useState(false);
+  const [date, setDate] = useState('');
 
   const getLabelByValue = (value: string): string => {
-  const option = cambioOptions.find(opt => opt.value === value);
-  return option ? option.label : '';
-};
+    const option = cambioOptions.find(opt => opt.value === value);
+    return option ? option.label : '';
+  };
+
+  const formatDate = (text: string) => {
+    
+    const cleanText = text.replace(/\D/g, '');
+    
+    
+    let formattedText = cleanText;
+    if (cleanText.length >= 2) {
+      formattedText = cleanText.substring(0, 2) + '/' + cleanText.substring(2);
+    }
+    if (cleanText.length >= 4) {
+      formattedText = cleanText.substring(0, 2) + '/' + cleanText.substring(2, 4) + '/' + cleanText.substring(4, 8);
+    }
+    
+    return formattedText;
+  };
+
+  const handleDateChange = (text: string) => {
+    const formatted = formatDate(text);
+    setDate(formatted);
+  };
 
   return (
     <View style={styles.mainContainer}>
@@ -39,7 +60,17 @@ const EventReportScreen = () => {
           <Text style={styles.title}>RELATÓRIO DE EVENTO</Text>
 
           <TextInput style={styles.input} placeholder="NOME DO EVENTO" placeholderTextColor="#000000" />
-          <TextInput style={styles.input} placeholder="XX/XX/XXXX" placeholderTextColor="#000000" />
+          
+          <TextInput 
+            style={styles.input} 
+            placeholder="DD/MM/AAAA" 
+            placeholderTextColor="#000000"
+            value={date}
+            onChangeText={handleDateChange}
+            keyboardType="numeric"
+            maxLength={10}
+          />
+          
           <TextInput style={styles.input} placeholder="NOME DO EVENTO" placeholderTextColor="#000000" />
           
           <View style={styles.selectContainer}>
@@ -55,7 +86,14 @@ const EventReportScreen = () => {
           <View style={styles.innerCard}>
             <View style={styles.selectContainer}>
               <Text style={styles.label}>Produto(s):</Text>
-              <TextInput style={styles.input} placeholder="CHOCOLATE 55% COCOA WITH CUPUASSU 80G" placeholderTextColor="#000000" />
+              <TextInput 
+                style={styles.productInput} 
+                placeholder="CHOCOLATE 55% COCOA WITH CUPUASSU 80G" 
+                placeholderTextColor="#000000"
+                multiline={true}
+                numberOfLines={2}
+                textAlignVertical="top"
+              />
             </View>
 
             <View style={styles.selectContainer}>
@@ -68,7 +106,7 @@ const EventReportScreen = () => {
 
               <TouchableOpacity
                 style={styles.cambioButton}
-                onPress={() => setModalVisible(true)}
+                onPress={() => setShowCurrencyModal(true)}
                 activeOpacity={0.7}
               >
                 <Text style={styles.cambioButtonText}>{getLabelByValue(cambio)}</Text>
@@ -76,28 +114,41 @@ const EventReportScreen = () => {
               </TouchableOpacity>
 
               <Modal
-                visible={modalVisible}
+                animationType="slide"
                 transparent={true}
-                animationType="fade"
-                onRequestClose={() => setModalVisible(false)}
+                visible={showCurrencyModal}
+                onRequestClose={() => setShowCurrencyModal(false)}
               >
-                <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
-                  <View style={styles.modalOverlay} />
-                </TouchableWithoutFeedback>
-
-                <View style={styles.modalContainer}>
-                  {cambioOptions.map((option) => (
-                    <TouchableOpacity
-                      key={option.value}
-                      style={styles.modalOption}
-                      onPress={() => {
-                        setCambio(option.value);
-                        setModalVisible(false);
-                      }}
+                <View style={styles.modalOverlay}>
+                  <View style={styles.modalContent}>
+                    <Text style={styles.modalTitle}>Selecione o Câmbio</Text>
+                    {cambioOptions.map((currency) => (
+                      <TouchableOpacity
+                        key={currency.value}
+                        style={[
+                          styles.modalOption,
+                          cambio === currency.value && styles.modalOptionSelected
+                        ]}
+                        onPress={() => {
+                          setCambio(currency.value);
+                          setShowCurrencyModal(false);
+                        }}
+                      >
+                        <Text style={[
+                          styles.modalOptionText,
+                          cambio === currency.value && styles.modalOptionTextSelected
+                        ]}>
+                          {currency.label}
+                        </Text>
+                      </TouchableOpacity>
+                    ))}
+                    <TouchableOpacity 
+                      style={styles.modalCloseButton}
+                      onPress={() => setShowCurrencyModal(false)}
                     >
-                      <Text style={styles.modalOptionText}>{option.label}</Text>
+                      <Text style={styles.modalCloseText}>Cancelar</Text>
                     </TouchableOpacity>
-                  ))}
+                  </View>
                 </View>
               </Modal>
             </View>
@@ -137,9 +188,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   logo: {
-     width: 280,
-        transform: [{ translateX: -12 }],
-    height: 130
+    width: 200,
+    height: 140,
+    left: -14,
+    marginTop: -17,
   },
   card: {
     backgroundColor: '#59A752',
@@ -165,6 +217,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 10,
     paddingLeft: 10,
+    marginBottom: 15,
+    fontSize: 16,
+  },
+  productInput: {
+    minHeight: 60,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    paddingLeft: 10,
+    paddingTop: 10,
+    paddingRight: 10,
     marginBottom: 15,
     fontSize: 16,
   },
@@ -195,27 +257,52 @@ const styles = StyleSheet.create({
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.3)',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  modalContainer: {
-    position: 'absolute',
-    top: '40%',
-    left: '10%',
-    right: '10%',
-    backgroundColor: '#FFF',
-    borderRadius: 10,
-    paddingVertical: 10,
-    elevation: 5,
+  modalContent: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    padding: 20,
+    width: '80%',
+    maxWidth: 300,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333333',
+    textAlign: 'center',
+    marginBottom: 20,
   },
   modalOption: {
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    borderBottomColor: '#DDD',
-    borderBottomWidth: 1,
+    padding: 15,
+    borderRadius: 8,
+    marginVertical: 5,
+    backgroundColor: '#F5F5F5',
+  },
+  modalOptionSelected: {
+    backgroundColor: '#01923F',
   },
   modalOptionText: {
     fontSize: 16,
-    color: '#000',
+    color: '#333333',
+    textAlign: 'center',
+  },
+  modalOptionTextSelected: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+  },
+  modalCloseButton: {
+    marginTop: 15,
+    padding: 12,
+    backgroundColor: '#E0E0E0',
+    borderRadius: 8,
+  },
+  modalCloseText: {
+    fontSize: 16,
+    color: '#666666',
+    textAlign: 'center',
   },
   buttonContainer: {
     justifyContent: 'center',

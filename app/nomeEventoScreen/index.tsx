@@ -1,17 +1,36 @@
-import { Picker } from '@react-native-picker/picker';
 import React, { useState } from 'react';
-import { Image, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  Image,
+  Modal,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from 'react-native';
+
+const cambioOptions = [
+  { label: 'USD', value: 'USD' },
+  { label: 'BRL', value: 'BRL' },
+  { label: 'EUR', value: 'EUR' },
+];
 
 export default function App() {
-  const [selectedCurrency, setSelectedCurrency] = useState('US'); 
+  const [selectedCurrency, setSelectedCurrency] = useState('USD');
+  const [showCurrencyModal, setShowCurrencyModal] = useState(false);
+
+  const getLabelByValue = (value: string): string => {
+    const option = cambioOptions.find(opt => opt.value === value);
+    return option ? option.label : '';
+  };
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: '#01923F', padding: 16 }}>
       <View style={styles.topBar}>
-       
         <Image
           source={require('./assets/logo.png')} 
-          style={styles.logo} 
+          style={styles.logo}
         />
       </View>
 
@@ -24,12 +43,32 @@ export default function App() {
       <Field label="Data" placeholder="(automaticoData)" />
       <Field label="Tipo" placeholder="(automaticoEvento)" />
       <Field label="Produtor" placeholder="(automaticoProdutor)" />
-
-    
-      <ProductCard title="Produto 1" quantidade="90" cambio={selectedCurrency} setCambio={setSelectedCurrency} />
-      <ProductCard title="Produto 2" cambio={selectedCurrency} setCambio={setSelectedCurrency} />
-
-      <ProductCard title="Produto 3" cambio={selectedCurrency} setCambio={setSelectedCurrency} />
+      
+      <ProductCard 
+        title="Produto 1" 
+        quantidade="90" 
+        cambio={selectedCurrency} 
+        setCambio={setSelectedCurrency}
+        showModal={showCurrencyModal}
+        setShowModal={setShowCurrencyModal}
+        getLabelByValue={getLabelByValue}
+      />
+      <ProductCard 
+        title="Produto 2" 
+        cambio={selectedCurrency} 
+        setCambio={setSelectedCurrency}
+        showModal={showCurrencyModal}
+        setShowModal={setShowCurrencyModal}
+        getLabelByValue={getLabelByValue}
+      />
+      <ProductCard 
+        title="Produto 3" 
+        cambio={selectedCurrency} 
+        setCambio={setSelectedCurrency}
+        showModal={showCurrencyModal}
+        setShowModal={setShowCurrencyModal}
+        getLabelByValue={getLabelByValue}
+      />
 
       <Field label="CDP" placeholder="" />
       <Field label="Valor Total" placeholder="" />
@@ -38,9 +77,53 @@ export default function App() {
       <TextInput
         placeholder="Descrição"
         placeholderTextColor="#ccc"
-        style={{ backgroundColor: 'white', borderRadius: 8, padding: 10, height: 100, marginBottom: 40 }}
+        style={{ backgroundColor: 'white', borderRadius: 8, padding: 10, height: 100, marginBottom: 20 }}
         multiline
       />
+
+      <TouchableOpacity style={styles.sendButton} onPress={() => {}}>
+        <Text style={styles.sendButtonText}>Enviar</Text>
+      </TouchableOpacity>
+
+     
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={showCurrencyModal}
+        onRequestClose={() => setShowCurrencyModal(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Selecione o Câmbio</Text>
+            {cambioOptions.map((currency) => (
+              <TouchableOpacity
+                key={currency.value}
+                style={[
+                  styles.modalOption,
+                  selectedCurrency === currency.value && styles.modalOptionSelected
+                ]}
+                onPress={() => {
+                  setSelectedCurrency(currency.value);
+                  setShowCurrencyModal(false);
+                }}
+              >
+                <Text style={[
+                  styles.modalOptionText,
+                  selectedCurrency === currency.value && styles.modalOptionTextSelected
+                ]}>
+                  {currency.label}
+                </Text>
+              </TouchableOpacity>
+            ))}
+            <TouchableOpacity 
+              style={styles.modalCloseButton}
+              onPress={() => setShowCurrencyModal(false)}
+            >
+              <Text style={styles.modalCloseText}>Cancelar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
   );
 }
@@ -56,23 +139,37 @@ const Field = ({ label, placeholder }: { label: string; placeholder: string }) =
   </View>
 );
 
-const ProductCard = ({ title, quantidade = '', cambio = '', setCambio }: { title: string; quantidade?: string; cambio?: string; setCambio: (value: string) => void }) => (
+const ProductCard = ({ 
+  title, 
+  quantidade = '', 
+  cambio = '', 
+  setCambio, 
+  showModal, 
+  setShowModal, 
+  getLabelByValue 
+}: { 
+  title: string; 
+  quantidade?: string; 
+  cambio?: string; 
+  setCambio: (value: string) => void;
+  showModal: boolean;
+  setShowModal: (show: boolean) => void;
+  getLabelByValue: (value: string) => string;
+}) => (
   <View style={{ backgroundColor: '#44785A', borderRadius: 12, padding: 12, marginBottom: 16 }}>
     <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold', marginBottom: 8 }}>{title}</Text>
     <Field label="Nome" placeholder="(automaticoProduto)" />
     <Field label="Quantidade" placeholder={quantidade || '90'} />
     
     <Text style={{ color: 'white', fontSize: 16, marginBottom: 4 }}>Câmbio:</Text>
-    <View style={{ backgroundColor: 'white', borderRadius: 8, padding: 10 }}>
-      <Picker
-        selectedValue={cambio}
-        onValueChange={(itemValue) => setCambio(itemValue)} 
-      >
-        <Picker.Item label="US" value="US" />
-        <Picker.Item label="REAL" value="REAL" />
-        <Picker.Item label="EUR" value="EUR" />
-      </Picker>
-    </View>
+    <TouchableOpacity
+      style={styles.cambioButton}
+      onPress={() => setShowModal(true)}
+      activeOpacity={0.7}
+    >
+      <Text style={styles.cambioButtonText}>{getLabelByValue(cambio)}</Text>
+      <Text style={styles.cambioButtonArrow}>▼</Text>
+    </TouchableOpacity>
   </View>
 );
 
@@ -96,8 +193,89 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   logo: {
-    height: 200,
+    height: 140,
+    width: 200,
     resizeMode: 'contain',
-    marginLeft: -45, 
+    marginLeft: -34,
+  },
+  cambioButton: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: 50,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 8,
+    paddingHorizontal: 15,
+  },
+  cambioButtonText: {
+    fontSize: 16,
+    color: '#000',
+  },
+  cambioButtonArrow: {
+    fontSize: 18,
+    color: '#000',
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    padding: 20,
+    width: '80%',
+    maxWidth: 300,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333333',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  modalOption: {
+    padding: 15,
+    borderRadius: 8,
+    marginVertical: 5,
+    backgroundColor: '#F5F5F5',
+  },
+  modalOptionSelected: {
+    backgroundColor: '#01923F',
+  },
+  modalOptionText: {
+    fontSize: 16,
+    color: '#333333',
+    textAlign: 'center',
+  },
+  modalOptionTextSelected: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+  },
+  modalCloseButton: {
+    marginTop: 15,
+    padding: 12,
+    backgroundColor: '#E0E0E0',
+    borderRadius: 8,
+  },
+  modalCloseText: {
+    fontSize: 16,
+    color: '#666666',
+    textAlign: 'center',
+  },
+  sendButton: {
+    backgroundColor: '#FFAA39',
+    width: '100%',
+    height: 50,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 40,
+  },
+  sendButtonText: {
+    fontSize: 20,
+    color: '#FFFFFF',
+    fontWeight: 'bold',
   },
 });
