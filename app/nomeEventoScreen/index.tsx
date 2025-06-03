@@ -1,7 +1,6 @@
-// app/FormularioEventoScreen.tsx
-// (Presumindo que este é o arquivo que você chamou de "tela de nome de evento" ou EventReportScreen no seu último código)
 
-import { EventReport, EventReportProduct, submitMockEventReport } from '@/mockApi/events'; // Verifique o alias @/
+
+import { EventReport, EventReportProduct, submitMockEventReport } from '@/mockApi/events';
 import { Stack, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
@@ -23,7 +22,7 @@ const cambioOptions = [
   { label: 'EUR', value: 'EUR' },
 ];
 
-// Componente Field reutilizável
+
 const Field = ({ label, placeholder, value, onChangeText, keyboardType = 'default', editable = true, multiline = false, numberOfLines = 1 }: {
   label: string;
   placeholder: string;
@@ -51,12 +50,12 @@ const Field = ({ label, placeholder, value, onChangeText, keyboardType = 'defaul
   </View>
 );
 
-// Componente para cada bloco de produto no formulário
+
 const ProductInputCard = ({
   index,
   productData,
   onProductChange,
-  onRemoveProduct, // Para remover este bloco de produto
+  onRemoveProduct,
   setShowModalForProduct,
 }: {
   index: number;
@@ -68,7 +67,7 @@ const ProductInputCard = ({
   <View style={styles.productInputCard}>
     <View style={styles.productCardHeader}>
       <Text style={styles.productCardTitle}>{`Produto ${index + 1}`}</Text>
-      {/* Botão de remover só aparece se houver mais de um produto e não for o primeiro */}
+    
       {index > 0 && (
         <TouchableOpacity onPress={() => onRemoveProduct(index)} style={styles.removeProductButton}>
           <Text style={styles.removeProductButtonText}>Remover Produto</Text>
@@ -91,7 +90,7 @@ const ProductInputCard = ({
     <Text style={styles.fieldLabel}>Câmbio:</Text>
     <TouchableOpacity
       style={styles.cambioButton}
-      onPress={() => setShowModalForProduct(index)} // Passa o índice para o modal saber qual produto atualizar
+      onPress={() => setShowModalForProduct(index)} 
     >
       <Text style={styles.cambioButtonText}>{productData.exchange || 'Selecione'}</Text>
       <Text style={styles.cambioButtonArrow}>▼</Text>
@@ -103,28 +102,27 @@ const ProductInputCard = ({
 export default function FormularioEventoScreen() {
   const router = useRouter();
 
-  // Estados para os campos principais do evento
   const [eventName, setEventName] = useState("");
   const [eventCityCountry, setEventCityCountry] = useState("");
-  const [eventDate, setEventDate] = useState(""); // Para a data do evento em si
+  const [eventDate, setEventDate] = useState(""); 
   const [eventType, setEventType] = useState("");
-  const [producerName, setProducerName] = useState(""); // Se aplicável
+  const [producerName, setProducerName] = useState(""); 
 
-  // Estado para a lista de produtos do evento
+
   const initialProduct = (): Partial<EventReportProduct> => ({ name: '', quantity: '', exchange: 'USD' });
-  const [products, setProducts] = useState<Partial<EventReportProduct>[]>([initialProduct()]); // Começa com um produto
+  const [products, setProducts] = useState<Partial<EventReportProduct>[]>([initialProduct()]); 
 
-  // Outros estados do formulário
+
   const [cdp, setCdp] = useState("");
   const [totalValue, setTotalValue] = useState("");
   const [description, setDescription] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  // Estados para o modal de câmbio
-  const [showCurrencyModal, setShowCurrencyModal] = useState(false);
-  const [currentProductIndexForModal, setCurrentProductIndexForModal] = useState<number | null>(null); // Para saber qual produto está editando o câmbio
 
-  // Atualiza um campo específico de um produto na lista
+  const [showCurrencyModal, setShowCurrencyModal] = useState(false);
+  const [currentProductIndexForModal, setCurrentProductIndexForModal] = useState<number | null>(null); 
+
+
   const handleProductChange = (index: number, field: keyof EventReportProduct, value: string) => {
     const updatedProducts = products.map((p, i) =>
       i === index ? { ...p, [field]: value } : p
@@ -132,15 +130,14 @@ export default function FormularioEventoScreen() {
     setProducts(updatedProducts);
   };
 
-  // Adiciona um novo bloco de produto ao formulário
+ 
   const addProductField = () => {
     setProducts(prevProducts => [...prevProducts, initialProduct()]);
   };
 
-  // Remove um bloco de produto do formulário
+
   const removeProductField = (indexToRemove: number) => {
-    // Só permite remover se houver mais de um produto, para manter pelo menos um.
-    // Você pode mudar essa lógica se quiser permitir 0 produtos.
+   
     if (products.length > 1) {
       setProducts(prevProducts => prevProducts.filter((_, index) => index !== indexToRemove));
     } else {
@@ -148,7 +145,7 @@ export default function FormularioEventoScreen() {
     }
   };
 
-  // Define o câmbio para o produto cujo modal foi aberto
+
   const handleCurrencyChangeForProduct = (currencyValue: string) => {
     if (currentProductIndexForModal !== null) {
       handleProductChange(currentProductIndexForModal, 'exchange', currencyValue);
@@ -157,13 +154,13 @@ export default function FormularioEventoScreen() {
     setCurrentProductIndexForModal(null);
   };
 
-  // Abre o modal de câmbio para um produto específico
+ 
   const openCurrencyModalForProduct = (index: number) => {
     setCurrentProductIndexForModal(index);
     setShowCurrencyModal(true);
   };
 
-  // Função para "Enviar" / "Salvar Relatório"
+ 
   const handleSubmitReport = async () => {
     Keyboard.dismiss();
     if (!eventName.trim()) {
@@ -171,7 +168,6 @@ export default function FormularioEventoScreen() {
       return;
     }
 
-    // Filtra para garantir que apenas produtos com nome e quantidade sejam enviados
     const validProducts = products.filter(
       (p): p is EventReportProduct => !!(p.name && p.name.trim() && p.quantity && p.quantity.trim() && p.exchange)
     );
@@ -189,25 +185,25 @@ export default function FormularioEventoScreen() {
       eventDate,
       eventType,
       producerName,
-      products: validProducts, // Envia apenas produtos válidos
+      products: validProducts, 
       cdp,
       totalValue,
       description,
-      responsible: "Admin Logado (Mock)", // Em um app real, viria do usuário autenticado
+      responsible: "Admin Logado (Mock)", 
     };
 
     try {
       const response = await submitMockEventReport(reportData);
-      if (response.success && response.report?.id) { // Verifica se o ID do relatório foi retornado
+      if (response.success && response.report?.id) { 
         Alert.alert("Sucesso!", response.message);
-        // Limpar o formulário
+       
         setEventName(""); setEventCityCountry(""); setEventDate(""); setEventType(""); setProducerName("");
-        setProducts([initialProduct()]); // Reseta para um produto
+        setProducts([initialProduct()]);
         setCdp(""); setTotalValue(""); setDescription("");
 
-        // Navegar para a tela de detalhe do evento salvo, passando o ID
+  
         router.push({
-          pathname: '/relatorioEventos2Screen', // Use o nome da sua tela de detalhe
+          pathname: '/relatorioEventos2Screen', 
           params: { reportId: response.report.id }
         });
       } else {
