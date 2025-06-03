@@ -225,12 +225,12 @@ export default function FormularioEventoScreen() {
         keyboardVerticalOffset={Platform.OS === 'ios' ? 60 : 0}
     >
     <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollViewContent} keyboardShouldPersistTaps="handled">
-      {/* Configura o header da tela */}
+     
       <Stack.Screen
         options={{
           title: 'Novo Relatório',
           headerStyle: { backgroundColor: '#01923F' },
-          headerTintColor: '#FFFFFF', // Cor do título e do botão voltar
+          headerTintColor: '#FFFFFF', 
           headerTitleStyle: { fontWeight: 'bold' },
         }}
       />
@@ -240,18 +240,18 @@ export default function FormularioEventoScreen() {
 
       <Text style={styles.pageTitle}>Adicionar Relatório de Missão/Evento</Text>
 
-      {/* Campos do formulário do evento */}
+  
       <Field label="Nome do Evento" placeholder="Digite o nome do evento" value={eventName} onChangeText={setEventName} />
       <Field label="Cidade, País" placeholder="Ex: Paris, França" value={eventCityCountry} onChangeText={setEventCityCountry} />
       <Field label="Data do Evento" placeholder="DD/MM/AAAA" value={eventDate} onChangeText={setEventDate} />
       <Field label="Tipo de Evento" placeholder="Ex: Feira Internacional" value={eventType} onChangeText={setEventType} />
       <Field label="Produtor Principal (se houver)" placeholder="Nome do produtor" value={producerName} onChangeText={setProducerName} />
       
-      {/* Seção de Produtos */}
+ 
       <Text style={styles.sectionHeader}>Produtos da Missão</Text>
       {products.map((product, index) => (
         <ProductInputCard
-          key={index} // Para listas dinâmicas, idealmente seria um ID único por produto adicionado
+          key={index} 
           index={index}
           productData={product}
           onProductChange={handleProductChange}
@@ -260,12 +260,12 @@ export default function FormularioEventoScreen() {
         />
       ))}
 
-      {/* Botão para adicionar mais produtos */}
+      
       <TouchableOpacity style={styles.addProductButton} onPress={addProductField}>
         <Text style={styles.addProductButtonText}>+ Adicionar Produto</Text>
       </TouchableOpacity>
 
-      {/* Outros campos do relatório */}
+     
       <Field label="CDP (Custo de Desenvolvimento de Produto)" placeholder="Ex: 1500,00" value={cdp} onChangeText={setCdp} keyboardType="numeric"/>
       <Field label="Valor Total Estimado" placeholder="Ex: 10000,00" value={totalValue} onChangeText={setTotalValue} keyboardType="numeric"/>
 
@@ -280,7 +280,7 @@ export default function FormularioEventoScreen() {
         onChangeText={setDescription}
       />
 
-      {/* Botão de Enviar/Salvar */}
+
       <TouchableOpacity
         style={[styles.sendButton, isLoading && styles.sendButtonDisabled]}
         onPress={handleSubmitReport}
@@ -289,7 +289,7 @@ export default function FormularioEventoScreen() {
         {isLoading ? <ActivityIndicator color="#fff" /> : <Text style={styles.sendButtonText}>Salvar e Ver Detalhes</Text>}
       </TouchableOpacity>
 
-      {/* Modal de Câmbio (como você já tinha, com ajustes para o índice do produto) */}
+
       <Modal
         animationType="slide"
         transparent={true}
@@ -331,7 +331,7 @@ export default function FormularioEventoScreen() {
   );
 }
 
-// Estilos adaptados e mesclados dos seus exemplos
+
 const styles = StyleSheet.create({
   keyboardAvoidingContainer: { flex: 1 },
   scrollView: { flex: 1, backgroundColor: '#01923F' },
@@ -359,7 +359,6 @@ const styles = StyleSheet.create({
   sendButton: { backgroundColor: '#FFAA39', paddingVertical: 15, borderRadius: 25, alignItems: 'center', marginTop: 15 },
   sendButtonDisabled: { backgroundColor: '#FFD18C'},
   sendButtonText: { fontSize: 17, color: '#FFFFFF', fontWeight: 'bold' },
-  // Estilos do Modal (mantidos da sua "tela de nome de evento")
   modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.6)', justifyContent: 'center', alignItems: 'center' },
   modalContent: { backgroundColor: '#fff', borderRadius: 12, padding: 20, width: '85%', maxWidth: 320 },
   modalTitle: { fontSize: 19, fontWeight: '600', marginBottom: 20, textAlign: 'center', color: '#333' },

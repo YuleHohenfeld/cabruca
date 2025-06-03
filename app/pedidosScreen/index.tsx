@@ -1,4 +1,3 @@
-// app/PedidosScreen.tsx
 import { getMockOrders, Order, OrderProductItem } from '@/mockApi/products'; // Ajuste o caminho se mockApi/orders.ts
 import { Stack, useFocusEffect } from 'expo-router';
 import React, { useCallback, useState } from 'react';
@@ -10,7 +9,7 @@ import {
   ScrollView, StyleSheet, Text, View
 } from 'react-native';
 
-// Ajuste o caminho para o seu logo
+
 const logo = require('./assets/logo.png');
 
 const PedidoProdutoItem = ({ item }: { item: OrderProductItem  }) => (
@@ -53,8 +52,7 @@ export default function PedidosScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
-  const filterByUserIdentifier = undefined; // Admin vê todos; para produtor, seria o ID/nome dele
-
+  const filterByUserIdentifier = undefined; 
   const loadOrders = useCallback(async () => {
     if (!refreshing) setIsLoading(true);
     console.log(`[PedidosScreen] Carregando pedidos...`);
@@ -122,7 +120,7 @@ export default function PedidosScreen() {
   );
 };
 
-// ESTILOS (use os estilos que você já tinha e ajustou)
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#01923F', paddingTop: 10, },
   centeredLoading: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#01923F', },

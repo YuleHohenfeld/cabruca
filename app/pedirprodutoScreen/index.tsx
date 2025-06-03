@@ -1,4 +1,3 @@
-// app/PedirProdutoScreen.tsx
 import { getMockProductById, OrderDetails, placeMockOrder, Product } from '@/mockApi/products';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
@@ -6,9 +5,8 @@ import {
   ActivityIndicator, Alert, Image, Keyboard, KeyboardAvoidingView, Modal, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View,
 } from 'react-native';
 
-// Ajuste os caminhos dos assets
 const screenLogo = require('./assets/logo.png');
-// const placeholderProductImage = require('../assets/placeholder.png'); // Removido
+
 
 export default function PedirProdutoScreen() {
   const router = useRouter();
@@ -72,15 +70,15 @@ export default function PedirProdutoScreen() {
       quantity: parseFloat(String(quantidade).replace(',', '.')),
       totalValue: valorTotal,
       boxCount: box,
-      requestedBy: "Admin App User", // Identificador de quem está fazendo o pedido
+      requestedBy: "Admin App User", 
     };
 
     try {
       const response = await placeMockOrder(orderDetails);
       if (response.success) {
         Alert.alert("Pedido Realizado!", response.message);
-        setQuantidade(""); setBox(""); // Limpa alguns campos
-        router.push('/pedidosScreen'); // NAVEGA PARA A TELA DE PEDIDOS
+        setQuantidade(""); setBox(""); 
+        router.push('/pedidosScreen'); 
       } else { Alert.alert("Falha no Pedido", response.message || "Não foi possível realizar o pedido."); }
     } catch (error) { Alert.alert("Erro no Pedido", "Ocorreu um problema ao processar seu pedido."); }
     finally { setIsPlacingOrder(false); }
@@ -97,7 +95,7 @@ export default function PedirProdutoScreen() {
     return null;
   };
 
-  if (isLoadingProduct) { /* ... seu JSX de loading ... */ 
+  if (isLoadingProduct) { 
     return (
       <View style={[styles.baseContainer, styles.centeredContent]}>
         <Stack.Screen options={{ title: 'Carregando...' }} />
@@ -106,7 +104,7 @@ export default function PedirProdutoScreen() {
       </View>
     );
   }
-  if (!product) { /* ... seu JSX de produto não encontrado ... */ 
+  if (!product) {
     return (
       <View style={[styles.baseContainer, styles.centeredContent]}>
         <Stack.Screen options={{ title: 'Erro' }} />
@@ -159,7 +157,7 @@ export default function PedirProdutoScreen() {
   );
 }
 
-// Cole aqui os estilos da sua tela PedirProdutoScreen que você já tem e ajustou
+
 const styles = StyleSheet.create({
   keyboardAvoidingContainer: { flex: 1, backgroundColor: '#01923F' },
   baseContainer: { flex: 1, backgroundColor: '#01923F' },
@@ -180,7 +178,7 @@ const styles = StyleSheet.create({
   inputDisabled: { backgroundColor: '#E9E9E9', color: '#777777', },
   pickerInput: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', },
   pickerText: { color: '#333333', fontSize: 14, },
-  pickerArrow: { color: '#666666', fontSize: 16, }, // Aumentei o tamanho da seta
+  pickerArrow: { color: '#666666', fontSize: 16, }, 
   modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.6)', justifyContent: 'center', alignItems: 'center' },
   modalContent: { backgroundColor: '#fff', borderRadius: 12, padding: 20, width: '85%', maxWidth: 320 },
   modalTitle: { fontSize: 19, fontWeight: '600', marginBottom: 20, textAlign: 'center', color: '#333' },

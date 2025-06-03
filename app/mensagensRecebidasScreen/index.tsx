@@ -1,10 +1,9 @@
 
 
-// MensagensScreen.tsx (Versão para ADMIN ver mensagens recebidas)
 
-// ... (todos os seus imports, Cabecalho, MensagemItem permanecem os mesmos)
+
 import { getMockReceivedMessages, Message } from '@/mockApi/messages';
-import { Ionicons } from '@expo/vector-icons'; // Certifique-se que Ionicons está importado
+import { Ionicons } from '@expo/vector-icons'; 
 import { useFocusEffect, useRouter } from 'expo-router';
 import React, { useCallback, useState } from 'react';
 import {
@@ -19,7 +18,7 @@ import {
   View,
 } from 'react-native';
 
-const logo = require('./assets/logo.png'); // Ajuste o caminho
+const logo = require('./assets/logo.png'); 
 
 const Cabecalho = () => {
   return (
@@ -59,8 +58,7 @@ export default function MensagensScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
-  // AGORA O USUÁRIO ATUAL É O ADMIN
-  const currentUserIdentifier = "ADMIN"; // <<< MUDANÇA IMPORTANTE
+  const currentUserIdentifier = "ADMIN"; 
 
   const loadMessages = useCallback(async () => {
     if (!refreshing) setIsLoading(true);
@@ -123,7 +121,7 @@ export default function MensagensScreen() {
           <MensagemItem
             key={msg.id}
             id={msg.id}
-            nome={msg.from} // Quem enviou a mensagem para o Admin
+            nome={msg.from} 
             subject={msg.subject}
             body={msg.body}
             data={new Date(msg.createdAt).toLocaleString('pt-BR', {
@@ -137,7 +135,7 @@ export default function MensagensScreen() {
   );
 }
 
-// Seus estilos (copie os estilos da sua MensagensScreen anterior)
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -1,6 +1,4 @@
-// app/DetalheEventoSalvoScreen.tsx
-
-import { EventReport, EventReportProduct, getMockEventReportById } from '@/mockApi/events'; // Verifique o alias @/
+import { EventReport, EventReportProduct, getMockEventReportById } from '@/mockApi/events'; 
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
@@ -12,10 +10,10 @@ import {
   View
 } from 'react-native';
 
-// Ajuste o caminho para o seu logo, se for usá-lo nesta tela também
+
 const logoAsset = require('./assets/logo.png');
 
-// Componente para exibir cada produto dentro do relatório salvo
+
 const ReportProductItemView = ({ product }: { product: EventReportProduct }) => (
   <View style={styles.productItem}>
     <Text style={styles.productNameText}>Produto: {product.name || "Não especificado"}</Text>
@@ -78,16 +76,16 @@ export default function DetalheEventoSalvoScreen() {
     );
   }
 
-  // Se o relatório foi carregado
+ 
   return (
     <View style={styles.mainContainer}>
       <Stack.Screen
         options={{
-          title: report.eventName.substring(0,25) + (report.eventName.length > 25 ? "..." : ""), // Título dinâmico
+          title: report.eventName.substring(0,25) + (report.eventName.length > 25 ? "..." : ""), 
           headerStyle: { backgroundColor: '#01923F' },
           headerTintColor: '#FFFFFF',
           headerTitleStyle: { fontWeight: 'bold' },
-          headerBackTitle: 'Relatórios', // Texto do botão "Voltar" no iOS
+          headerBackTitle: 'Relatórios', 
         }}
       />
       <ScrollView contentContainerStyle={styles.scrollContentContainer}>
@@ -197,7 +195,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   cardDetail: {
-    backgroundColor: 'rgba(255,255,255, 0.05)', // Fundo do card sutil
+    backgroundColor: 'rgba(255,255,255, 0.05)', 
     borderRadius: 10,
     padding: 18,
     marginBottom: 20,
@@ -224,7 +222,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(255,255,255,0.1)',
   },
-  detailSectionFull: { // Para CDP, Valor Total
+  detailSectionFull: { 
     marginBottom: 8,
     paddingVertical: 4,
     borderBottomWidth: 1,
@@ -232,14 +230,14 @@ const styles = StyleSheet.create({
   },
   detailLabel: {
     fontSize: 15,
-    color: '#B2DFDB', // Cor mais clara para o label
+    color: '#B2DFDB', 
     fontWeight: '600',
     marginRight: 8,
   },
   detailValue: {
     fontSize: 15,
     color: '#FFFFFF',
-    flexShrink: 1, // Permite que o texto quebre a linha se for muito longo
+    flexShrink: 1, 
     textAlign: 'right',
   },
   productsSectionTitle: {
@@ -268,7 +266,7 @@ const styles = StyleSheet.create({
     color: '#E0E0E0',
     marginLeft: 5,
   },
-  sectionTitle: { // Para o título "Descrição/Observações"
+  sectionTitle: { 
     fontSize: 17,
     fontWeight: 'bold',
     color: '#FFAA39',

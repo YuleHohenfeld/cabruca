@@ -1,5 +1,3 @@
-// app/MissionReportScreen.tsx (ou o caminho/nome que você está usando)
-
 import { Stack, useFocusEffect, useRouter } from 'expo-router';
 import React, { useCallback, useState } from 'react';
 import {
@@ -13,13 +11,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-// Importe a função para buscar relatórios e a interface EventReport
-import { EventReport, getMockEventReports } from '@/mockApi/events'; // Verifique o alias @/
 
-// Ajuste o caminho para o seu logo se necessário
-const logoAsset = require('./assets/logo.png'); // Se assets está na raiz e esta tela em app/
+import { EventReport, getMockEventReports } from '@/mockApi/events'; 
 
-// Componente para cada card de evento/relatório na lista
+
+const logoAsset = require('./assets/logo.png'); 
+
+
 const ReportCardItem = ({ report, onPress }: { report: EventReport; onPress: () => void }) => (
   <TouchableOpacity style={styles.card} onPress={onPress}>
     <Text style={styles.cardTitle}>{report.eventName}</Text>
@@ -31,7 +29,7 @@ const ReportCardItem = ({ report, onPress }: { report: EventReport; onPress: () 
   </TouchableOpacity>
 );
 
-// Componente principal da tela de listagem
+
 export default function MissionReportScreen() {
   const router = useRouter();
   const [reports, setReports] = useState<EventReport[]>([]);
@@ -71,14 +69,10 @@ export default function MissionReportScreen() {
   }, [loadEventReports]);
 
   const handleAddReport = () => {
-    // Navega para a tela de formulário
-    // Certifique-se que '/FormularioEventoScreen' é o nome da rota para sua tela de formulário
     router.push('/nomeEventoScreen');
   };
 
   const handleViewReportDetails = (reportId: string) => {
-    // Navega para a tela de detalhes do evento salvo
-    // Certifique-se que '/DetalheEventoSalvoScreen' é o nome da rota
     router.push({
       pathname: '/relatorioEventos2Screen',
       params: { reportId: reportId },
@@ -148,7 +142,7 @@ export default function MissionReportScreen() {
   );
 };
 
-// Seus estilos originais, com as adaptações que fizemos para loading e empty states
+
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
@@ -156,9 +150,9 @@ const styles = StyleSheet.create({
   },
   container: {
     flexGrow: 1,
-    paddingHorizontal: 20, // Adicionado paddingHorizontal
-    paddingTop: 10,        // Ajustado (era 20 ou 0)
-    paddingBottom: 80,     // Aumentado para o botão não cobrir o último card
+    paddingHorizontal: 20, 
+    paddingTop: 10,        
+    paddingBottom: 80,     
   },
   centeredLoadingOrEmpty: {
     flex: 1,
@@ -173,10 +167,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   centeredMessage: {
-    flex: 1, // Para ocupar espaço se o scrollview estiver vazio
+    flex: 1, 
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 50, // Para centralizar melhor a mensagem
+    paddingVertical: 50, 
   },
   emptyMessageText: {
     color: '#FFFFFF',
@@ -192,51 +186,50 @@ const styles = StyleSheet.create({
   },
   header: {
     alignItems: 'center',
-    marginBottom: 15, // Ajustado
+    marginBottom: 15, 
   },
   logo: {
     width: 280,
-    transform: [{ translateX: -12 }], // Mantido do seu original
+    transform: [{ translateX: -12 }], 
     height: 130,
   },
   mainTitle: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#FFFFFF',
-    marginBottom: 20, // Ajustado
+    marginBottom: 20, 
     textAlign: 'center',
   },
-  card: { // Estilo para ReportCardItem
-    backgroundColor: '#59A752', // Mantido do seu original
+  card: { 
+    backgroundColor: '#59A752', 
     borderRadius: 10,
-    padding: 18, // Aumentado um pouco
+    padding: 18,
     marginBottom: 15,
-    // Removido justifyContent e alignItems para o texto alinhar à esquerda por padrão
   },
   cardTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#FFFFFF',
-    marginBottom: 5, // Adicionado
+    marginBottom: 5, 
   },
-  cardSubText: { // Novo estilo para cidade/país no card
+  cardSubText: { 
     fontSize: 14,
     color: '#E0E0E0',
     marginBottom: 3,
   },
-  cardDateText: { // Novo estilo para data no card
+  cardDateText: { 
     fontSize: 12,
     color: '#C0C0C0',
     fontStyle: 'italic',
     marginTop: 4,
   },
-  cardDescriptionPreview: { // Novo estilo para preview da descrição
+  cardDescriptionPreview: { 
     fontSize: 13,
     color: '#D0D0D0',
     marginTop: 5,
     fontStyle: 'italic',
   },
-  addButton: { // Mantido do seu original
+  addButton: { 
     position: 'absolute',
     bottom: 40,
     right: 30,
@@ -249,12 +242,12 @@ const styles = StyleSheet.create({
     zIndex: 1,
     elevation: 4,
   },
-  addButtonText: { // Mantido do seu original
+  addButtonText: { 
     fontSize: 20,
     color: '#FFFFFF',
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  // Estilos 'backButton' e 'backButtonText' foram removidos pois não são usados no JSX.
+
 });
 
