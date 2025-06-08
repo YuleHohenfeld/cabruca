@@ -1,4 +1,5 @@
-import { login } from '@/mockApi/auth';
+// ADICIONE ESTA LINHA
+import { login } from '@/services/auth';
 import Checkbox from 'expo-checkbox';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
@@ -24,30 +25,35 @@ const TextInputExample = () => {
 
   const router = useRouter();
 
-  const handleLogin = async () => {
-    if (!emailOrCnpj.trim() || !senha.trim()) {
-      Alert.alert('Atenção', 'Por favor, preencha o email/CNPJ e a senha.');
-      return;
+ // A VERSÃO CORRETA DA SUA FUNÇÃO handleLogin
+
+const handleLogin = async () => {
+  if (!emailOrCnpj.trim() || !senha.trim()) {
+    Alert.alert('Atenção', 'Por favor, preencha o email/CNPJ e a senha.');
+    return;
+  }
+
+  setIsLoading(true);
+
+  try {
+    const response = await login(emailOrCnpj, senha);
+
+    // --- CORREÇÃO AQUI ---
+    // Verificamos apenas se 'response.success' é verdadeiro.
+    if (response.success) {
+      // E mostramos uma mensagem de sucesso genérica, pois não temos o nome do usuário.
+      Alert.alert('Sucesso!', 'Login realizado com sucesso!');
+      router.replace('/menuScreen');
+    } else {
+      Alert.alert('Falha no Login', response.message || 'Email ou senha inválidos.');
     }
-
-    setIsLoading(true);
-
-    try {
-      const response = await login(emailOrCnpj, senha);
-
-      if (response.success && response.user) {
-        Alert.alert('Sucesso!', `Bem-vindo, ${response.user.name}!`);
-        router.replace('/menuScreen');
-      } else {
-        Alert.alert('Falha no Login', response.message || 'Email ou senha inválidos.');
-      }
-    } catch (error) {
-      console.error("Erro no login:", error);
-      Alert.alert('Erro', 'Ocorreu um erro ao tentar fazer login. Tente novamente.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  } catch (error) {
+    console.error("Erro no login:", error);
+    Alert.alert('Erro', 'Ocorreu um erro ao tentar fazer login. Tente novamente.');
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   return (
     <SafeAreaProvider>
