@@ -1,4 +1,4 @@
-// ADICIONE ESTA LINHA
+
 import { login } from '@/services/auth';
 import Checkbox from 'expo-checkbox';
 import { useRouter } from 'expo-router';
@@ -25,7 +25,7 @@ const TextInputExample = () => {
 
   const router = useRouter();
 
- // A VERSÃO CORRETA DA SUA FUNÇÃO handleLogin
+
 
 const handleLogin = async () => {
   if (!emailOrCnpj.trim() || !senha.trim()) {
@@ -37,11 +37,9 @@ const handleLogin = async () => {
 
   try {
     const response = await login(emailOrCnpj, senha);
-
-    // --- CORREÇÃO AQUI ---
-    // Verificamos apenas se 'response.success' é verdadeiro.
+    
     if (response.success) {
-      // E mostramos uma mensagem de sucesso genérica, pois não temos o nome do usuário.
+      
       Alert.alert('Sucesso!', 'Login realizado com sucesso!');
       router.replace('/menuScreen');
     } else {

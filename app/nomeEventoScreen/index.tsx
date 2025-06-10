@@ -1,5 +1,3 @@
-
-
 import { EventReport, EventReportProduct, submitMockEventReport } from '@/mockApi/events';
 import { Stack, useRouter } from 'expo-router';
 import React, { useState } from 'react';
@@ -15,13 +13,14 @@ import {
   TouchableWithoutFeedback,
   View
 } from 'react-native';
+// 1. IMPORTAÇÃO DA BIBLIOTECA DE MÁSCARA
+import MaskInput from 'react-native-mask-input';
 
 const cambioOptions = [
   { label: 'USD', value: 'USD' },
   { label: 'BRL', value: 'BRL' },
   { label: 'EUR', value: 'EUR' },
 ];
-
 
 const Field = ({ label, placeholder, value, onChangeText, keyboardType = 'default', editable = true, multiline = false, numberOfLines = 1 }: {
   label: string;
@@ -49,7 +48,6 @@ const Field = ({ label, placeholder, value, onChangeText, keyboardType = 'defaul
     />
   </View>
 );
-
 
 const ProductInputCard = ({
   index,
@@ -98,7 +96,6 @@ const ProductInputCard = ({
   </View>
 );
 
-
 export default function FormularioEventoScreen() {
   const router = useRouter();
 
@@ -108,20 +105,21 @@ export default function FormularioEventoScreen() {
   const [eventType, setEventType] = useState("");
   const [producerName, setProducerName] = useState(""); 
 
-
   const initialProduct = (): Partial<EventReportProduct> => ({ name: '', quantity: '', exchange: 'USD' });
   const [products, setProducts] = useState<Partial<EventReportProduct>[]>([initialProduct()]); 
-
 
   const [cdp, setCdp] = useState("");
   const [totalValue, setTotalValue] = useState("");
   const [description, setDescription] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-
   const [showCurrencyModal, setShowCurrencyModal] = useState(false);
   const [currentProductIndexForModal, setCurrentProductIndexForModal] = useState<number | null>(null); 
 
+  // 2. FUNÇÃO PARA ATUALIZAR O ESTADO DA DATA COM O VALOR MASCARADO
+  const handleDateChange = (maskedValue: string) => {
+    setEventDate(maskedValue);
+  };
 
   const handleProductChange = (index: number, field: keyof EventReportProduct, value: string) => {
     const updatedProducts = products.map((p, i) =>
@@ -129,22 +127,18 @@ export default function FormularioEventoScreen() {
     );
     setProducts(updatedProducts);
   };
-
- 
+  
   const addProductField = () => {
     setProducts(prevProducts => [...prevProducts, initialProduct()]);
   };
 
-
   const removeProductField = (indexToRemove: number) => {
-   
     if (products.length > 1) {
       setProducts(prevProducts => prevProducts.filter((_, index) => index !== indexToRemove));
     } else {
       Alert.alert("Ação Inválida", "É necessário manter pelo menos um produto no relatório.");
     }
   };
-
 
   const handleCurrencyChangeForProduct = (currencyValue: string) => {
     if (currentProductIndexForModal !== null) {
@@ -153,14 +147,12 @@ export default function FormularioEventoScreen() {
     setShowCurrencyModal(false);
     setCurrentProductIndexForModal(null);
   };
-
- 
+  
   const openCurrencyModalForProduct = (index: number) => {
     setCurrentProductIndexForModal(index);
     setShowCurrencyModal(true);
   };
-
- 
+  
   const handleSubmitReport = async () => {
     Keyboard.dismiss();
     if (!eventName.trim()) {
@@ -176,7 +168,6 @@ export default function FormularioEventoScreen() {
         Alert.alert("Produtos Incompletos", "Preencha nome, quantidade e câmbio para todos os produtos adicionados, ou remova os produtos vazios.");
         return;
     }
-
 
     setIsLoading(true);
     const reportData: Omit<EventReport, 'id' | 'createdAt' | 'reportId' | 'registrationDate'> & {responsible?: string} = {
@@ -196,12 +187,11 @@ export default function FormularioEventoScreen() {
       const response = await submitMockEventReport(reportData);
       if (response.success && response.report?.id) { 
         Alert.alert("Sucesso!", response.message);
-       
+        
         setEventName(""); setEventCityCountry(""); setEventDate(""); setEventType(""); setProducerName("");
         setProducts([initialProduct()]);
         setCdp(""); setTotalValue(""); setDescription("");
 
-  
         router.push({
           pathname: '/relatorioEventos2Screen', 
           params: { reportId: response.report.id }
@@ -217,7 +207,6 @@ export default function FormularioEventoScreen() {
     }
   };
 
-
   return (
     <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -225,7 +214,7 @@ export default function FormularioEventoScreen() {
         keyboardVerticalOffset={Platform.OS === 'ios' ? 60 : 0}
     >
     <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollViewContent} keyboardShouldPersistTaps="handled">
-     
+      
       <Stack.Screen
         options={{
           title: 'Novo Relatório',
@@ -240,14 +229,26 @@ export default function FormularioEventoScreen() {
 
       <Text style={styles.pageTitle}>Adicionar Relatório de Missão/Evento</Text>
 
-  
       <Field label="Nome do Evento" placeholder="Digite o nome do evento" value={eventName} onChangeText={setEventName} />
       <Field label="Cidade, País" placeholder="Ex: Paris, França" value={eventCityCountry} onChangeText={setEventCityCountry} />
-      <Field label="Data do Evento" placeholder="DD/MM/AAAA" value={eventDate} onChangeText={setEventDate} />
+      
+      {/* 3. CAMPO DE DATA SUBSTITUÍDO PELO MASKINPUT */}
+      <View style={styles.fieldContainer}>
+        <Text style={styles.fieldLabel}>Data do Evento:</Text>
+        <MaskInput
+          style={styles.fieldInput}
+          value={eventDate}
+          onChangeText={handleDateChange}
+          mask={[/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/]}
+          placeholder="DD/MM/AAAA"
+          placeholderTextColor="#A0A0A0"
+          keyboardType="numeric"
+        />
+      </View>
+
       <Field label="Tipo de Evento" placeholder="Ex: Feira Internacional" value={eventType} onChangeText={setEventType} />
       <Field label="Produtor Principal (se houver)" placeholder="Nome do produtor" value={producerName} onChangeText={setProducerName} />
       
- 
       <Text style={styles.sectionHeader}>Produtos da Missão</Text>
       {products.map((product, index) => (
         <ProductInputCard
@@ -259,13 +260,11 @@ export default function FormularioEventoScreen() {
           setShowModalForProduct={openCurrencyModalForProduct}
         />
       ))}
-
       
       <TouchableOpacity style={styles.addProductButton} onPress={addProductField}>
         <Text style={styles.addProductButtonText}>+ Adicionar Produto</Text>
       </TouchableOpacity>
-
-     
+      
       <Field label="CDP (Custo de Desenvolvimento de Produto)" placeholder="Ex: 1500,00" value={cdp} onChangeText={setCdp} keyboardType="numeric"/>
       <Field label="Valor Total Estimado" placeholder="Ex: 10000,00" value={totalValue} onChangeText={setTotalValue} keyboardType="numeric"/>
 
@@ -280,7 +279,6 @@ export default function FormularioEventoScreen() {
         onChangeText={setDescription}
       />
 
-
       <TouchableOpacity
         style={[styles.sendButton, isLoading && styles.sendButtonDisabled]}
         onPress={handleSubmitReport}
@@ -288,7 +286,6 @@ export default function FormularioEventoScreen() {
       >
         {isLoading ? <ActivityIndicator color="#fff" /> : <Text style={styles.sendButtonText}>Salvar e Ver Detalhes</Text>}
       </TouchableOpacity>
-
 
       <Modal
         animationType="slide"
@@ -303,19 +300,19 @@ export default function FormularioEventoScreen() {
                 <Text style={styles.modalTitle}>Câmbio (Produto {currentProductIndexForModal !== null ? currentProductIndexForModal + 1 : ''})</Text>
                 {cambioOptions.map((currency) => (
                     <TouchableOpacity
-                    key={currency.value}
-                    style={[
-                        styles.modalOption,
-                        products[currentProductIndexForModal!]?.exchange === currency.value && styles.modalOptionSelected // Verifica o câmbio do produto atual
-                    ]}
-                    onPress={() => handleCurrencyChangeForProduct(currency.value)}
+                      key={currency.value}
+                      style={[
+                          styles.modalOption,
+                          products[currentProductIndexForModal!]?.exchange === currency.value && styles.modalOptionSelected
+                      ]}
+                      onPress={() => handleCurrencyChangeForProduct(currency.value)}
                     >
-                    <Text style={[
-                        styles.modalOptionText,
-                        products[currentProductIndexForModal!]?.exchange === currency.value && styles.modalOptionTextSelected
-                    ]}>
-                        {currency.label}
-                    </Text>
+                      <Text style={[
+                          styles.modalOptionText,
+                          products[currentProductIndexForModal!]?.exchange === currency.value && styles.modalOptionTextSelected
+                      ]}>
+                          {currency.label}
+                      </Text>
                     </TouchableOpacity>
                 ))}
                 <TouchableOpacity style={styles.modalCloseButton} onPress={() => { setShowCurrencyModal(false); setCurrentProductIndexForModal(null); }}>
@@ -331,7 +328,7 @@ export default function FormularioEventoScreen() {
   );
 }
 
-
+// OS ESTILOS PERMANECEM OS MESMOS
 const styles = StyleSheet.create({
   keyboardAvoidingContainer: { flex: 1 },
   scrollView: { flex: 1, backgroundColor: '#01923F' },
