@@ -13,8 +13,7 @@ import {
   TouchableWithoutFeedback,
   View
 } from 'react-native';
-
-
+// 1. IMPORTAÇÃO DA BIBLIOTECA DE MÁSCARA
 import MaskInput from 'react-native-mask-input';
 
 const cambioOptions = [
@@ -117,7 +116,7 @@ export default function FormularioEventoScreen() {
   const [showCurrencyModal, setShowCurrencyModal] = useState(false);
   const [currentProductIndexForModal, setCurrentProductIndexForModal] = useState<number | null>(null); 
 
-
+  // 2. FUNÇÃO PARA ATUALIZAR O ESTADO DA DATA COM O VALOR MASCARADO
   const handleDateChange = (maskedValue: string) => {
     setEventDate(maskedValue);
   };
@@ -233,7 +232,7 @@ export default function FormularioEventoScreen() {
       <Field label="Nome do Evento" placeholder="Digite o nome do evento" value={eventName} onChangeText={setEventName} />
       <Field label="Cidade, País" placeholder="Ex: Paris, França" value={eventCityCountry} onChangeText={setEventCityCountry} />
       
-  
+      {/* 3. CAMPO DE DATA SUBSTITUÍDO PELO MASKINPUT */}
       <View style={styles.fieldContainer}>
         <Text style={styles.fieldLabel}>Data do Evento:</Text>
         <MaskInput
@@ -329,7 +328,7 @@ export default function FormularioEventoScreen() {
   );
 }
 
-
+// OS ESTILOS PERMANECEM OS MESMOS
 const styles = StyleSheet.create({
   keyboardAvoidingContainer: { flex: 1 },
   scrollView: { flex: 1, backgroundColor: '#01923F' },
