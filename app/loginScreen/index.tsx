@@ -1,5 +1,6 @@
 
-import { login } from '@/services/auth';
+import { loginAdmin } from '@/services/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Checkbox from 'expo-checkbox';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
@@ -35,24 +36,26 @@ const handleLogin = async () => {
 
   setIsLoading(true);
 
-  try {
-    const response = await login(emailOrCnpj, senha);
+    try {
     
-    if (response.success) {
+      const response = await loginAdmin(emailOrCnpj, senha);
       
-      Alert.alert('Sucesso!', 'Login realizado com sucesso!');
-      router.replace('/menuScreen');
-    } else {
-      Alert.alert('Falha no Login', response.message || 'Email ou senha inválidos.');
+      if (response.success && response.token) {
+        
+        await AsyncStorage.setItem('@MyApp:token', response.token);
+        
+        Alert.alert('Sucesso!', 'Login realizado com sucesso!');
+        router.replace('/menuScreen'); 
+      } else {
+        Alert.alert('Falha no Login', response.message || 'Email ou senha inválidos.');
+      }
+    } catch (error) {
+      console.error("Erro no login:", error);
+      Alert.alert('Erro', 'Ocorreu um erro ao tentar fazer login. Tente novamente.');
+    } finally {
+      setIsLoading(false);
     }
-  } catch (error) {
-    console.error("Erro no login:", error);
-    Alert.alert('Erro', 'Ocorreu um erro ao tentar fazer login. Tente novamente.');
-  } finally {
-    setIsLoading(false);
-  }
-};
-
+  };
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
