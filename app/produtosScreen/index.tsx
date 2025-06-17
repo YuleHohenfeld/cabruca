@@ -18,8 +18,6 @@ const screenLogo = require('./assets/logo.png');
 
 const ProductCard = ({ product, onNavigate }: { product: Product; onNavigate: () => void }) => {
   const placeholderImage = require('./assets/placeHolder.png');
-
-  // <<< MUDANÇA AQUI: Carrega a imagem da URL se existir, senão usa o placeholder
   const productImageSource = product.imageName ? { uri: product.imageName } : placeholderImage;
 
   return (
@@ -48,8 +46,7 @@ useEffect(() => {
     setIsLoading(true);
     try {
       const productsData = await getProducts();
-      
-      // DEBUG: Verifique os IDs aqui!
+    
       console.log('Dados recebidos da API:', JSON.stringify(productsData, null, 2));
       productsData.forEach(p => {
         if (!p.id) {
@@ -97,10 +94,10 @@ useEffect(() => {
         ) : (
            products.map((product, index) => (
     <ProductCard
-      // 1. A 'key' agora é única, usando o nome e a posição do item.
+
       key={`${product.name}-${index}`} 
       product={product}
-      // 2. O botão agora mostra um alerta, pois não há ID para navegar.
+    
       onNavigate={() => Alert.alert(
         'Indisponível', 
         'Os detalhes deste produto não podem ser exibidos pois o ID não foi fornecido pela API.'
