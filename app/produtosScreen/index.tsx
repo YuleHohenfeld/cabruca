@@ -1,4 +1,5 @@
-import { getMockProducts, Product } from '@/mockApi/products';
+import { Product } from '@/mockApi/products';
+import { getProducts } from '@/services/products';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
@@ -14,15 +15,12 @@ import {
 
 const screenLogo = require('./assets/logo.png'); 
 
+
 const ProductCard = ({ product, onNavigate }: { product: Product; onNavigate: () => void }) => {
-  const imageMap: { [key: string]: ReturnType<typeof require> } = {
-    'meioamargoamaro.png': require('./assets/meioamargoamaro.png'),
-    'aoleite.png': require('./assets/aoleite.png'),
-    'amaro2.png': require('./assets/amaro2.png'),
-    'demeter.png': require('./assets/demeter.png'),
-  };
-  const placeholderImage = require('./assets/placeHolder.png'); 
-  const productImageSource = imageMap[product.imageName] || placeholderImage;
+  const placeholderImage = require('./assets/placeHolder.png');
+
+  // <<< MUDANÇA AQUI: Carrega a imagem da URL se existir, senão usa o placeholder
+  const productImageSource = product.imageName ? { uri: product.imageName } : placeholderImage;
 
   return (
     <View style={styles.productCard}>
@@ -45,24 +43,29 @@ const ProdutosScreen = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const loadProducts = async () => {
-      setIsLoading(true);
-      try {
-        const response = await getMockProducts();
-        if (response.success) {
-          setProducts(response.products);
-        } else {
-          Alert.alert("Erro", "Não foi possível carregar os produtos.");
+useEffect(() => {
+  const loadProducts = async () => {
+    setIsLoading(true);
+    try {
+      const productsData = await getProducts();
+      
+      // DEBUG: Verifique os IDs aqui!
+      console.log('Dados recebidos da API:', JSON.stringify(productsData, null, 2));
+      productsData.forEach(p => {
+        if (!p.id) {
+          console.warn('ALERTA: Produto sem ID encontrado!', p);
         }
-      } catch (err) {
-        Alert.alert("Erro", "Ocorreu um problema ao buscar os produtos.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    loadProducts();
-  }, []);
+      });
+      
+      setProducts(productsData);
+    } catch (err: any) {
+      Alert.alert("Erro", err.message || "Ocorreu um problema ao buscar os produtos.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  loadProducts();
+}, []);
 
   const navigateToDetail = (productId: string) => {
     router.push({
@@ -92,13 +95,18 @@ const ProdutosScreen = () => {
             Nenhum produto encontrado.
           </Text>
         ) : (
-          products.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onNavigate={() => navigateToDetail(product.id)}
-            />
-          ))
+           products.map((product, index) => (
+    <ProductCard
+      // 1. A 'key' agora é única, usando o nome e a posição do item.
+      key={`${product.name}-${index}`} 
+      product={product}
+      // 2. O botão agora mostra um alerta, pois não há ID para navegar.
+      onNavigate={() => Alert.alert(
+        'Indisponível', 
+        'Os detalhes deste produto não podem ser exibidos pois o ID não foi fornecido pela API.'
+      )}
+    />
+  ))
         )}
       </ScrollView>
     </View>
